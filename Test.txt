@@ -5,3 +5,5 @@ If you can read this, the repo works!
 Here's my edit ;P
 - Jaz
 
+Hello there!
+    -Nick here :)
