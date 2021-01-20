@@ -16,4 +16,24 @@ public class Order {
         this.drinkName = drinkName;
         this.options = options;
     }
+
+    public int getOrderID() {
+        return this.orderID;
+    }
+
+    public String getStreetAddress() {
+        return this.streetAddress;
+    }
+
+    public int getZipCode() {
+        return this.zipCode;
+    }
+
+    public String getDrinkName() {
+        return this.drinkName;
+    }
+
+    public ArrayList<Option> getOptions() {
+        return this.options;
+    }
 }
