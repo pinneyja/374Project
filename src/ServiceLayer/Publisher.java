@@ -1,7 +1,7 @@
 package ServiceLayer;
 
 public abstract class Publisher {
-    private EventChannel eventChannel;
+    protected EventChannel eventChannel;
 
     abstract void publishEvent();
 }
