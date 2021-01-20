@@ -30,7 +30,8 @@ public class ApplicationInterface extends Publisher {
         try {
             Order newOrder = parseOrder(jsonOrder);
             orders.put(newOrder.getOrderID(), newOrder);
-            eventChannel.notifySubscribers(newOrder);
+
+            publishEvent(newOrder);
         } catch (JSONException exception) {
             System.out.println("Oops! Something was formatted incorrectly in the order:\"\n" + jsonOrder + "\n\". " +
                     "It caused the following error: \"" + exception.getMessage() + "\" Please try again!");
@@ -69,8 +70,8 @@ public class ApplicationInterface extends Publisher {
     }
 
     @Override
-    void publishEvent() {
-
+    void publishEvent(Order order) {
+        eventChannel.notifySubscribers(order);
     }
 
     public EventChannel getEventChannel() {
