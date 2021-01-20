@@ -11,7 +11,9 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
     private HashMap<Integer, String> statusToMessage;
     private ApplicationInterface applicationInterface;
 
-    public CoffeeMaker() {
+    public CoffeeMaker(ApplicationInterface applicationInterface) {
+        this.applicationInterface = applicationInterface;
+
         statusToMessage = new HashMap<>();
         statusToMessage.put(0, "Your coffee has been prepared with your desired options.");
         statusToMessage.put(1, "Your coffee order has been cancelled.");
