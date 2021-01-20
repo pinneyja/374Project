@@ -1,4 +1,7 @@
+import BusinessLayer.AppResponse;
 import ServiceLayer.ApplicationInterface;
+
+import java.util.ArrayList;
 
 public class Main {
     private static final String[] ORDERS = {
@@ -47,5 +50,15 @@ public class Main {
         for (String order : ORDERS) {
             applicationInterface.placeOrder(order);
         }
+
+        // TODO: delete when done testing AppResponse
+//        ArrayList<AppResponse> appResponses = new ArrayList<>();
+//        appResponses.add(new AppResponse(1, 1, 0, "Your coffee has been prepared with your desired options.", null));
+//        appResponses.add(new AppResponse(2, 2, 1, "Your coffee order has been cancelled.", "Out of milk, drink cancelled."));
+//        appResponses.add(new AppResponse(3, 1, 1, "Your coffee order has been cancelled.", "Machine jammed."));
+//
+//        for(AppResponse appResponse : appResponses) {
+//            applicationInterface.returnAppResponse(appResponse);
+//        }
     }
 }
