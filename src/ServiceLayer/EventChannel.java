@@ -4,9 +4,8 @@ import BusinessLayer.Subscriber;
 import java.util.HashSet;
 
 public class EventChannel {
-
-    HashSet<Subscriber> simpleSubscribers;
-    HashSet<Subscriber> advancedSubscribers;
+    private HashSet<Subscriber> simpleSubscribers;
+    private HashSet<Subscriber> advancedSubscribers;
 
     public EventChannel() {
         simpleSubscribers = new HashSet<>();
@@ -32,10 +31,12 @@ public class EventChannel {
     public void notifySubscribers(Order order) {
         // TODO: Potentially check order drink vs what a simple coffee machine can do
         if(order.options != null && order.options.size() > 0) {
+            System.out.println("Firing notifications for advanced order!");
             for(Subscriber subscriber : advancedSubscribers) {
                 subscriber.update(order);
             }
         } else {
+            System.out.println("Firing notifications for simple order!");
             for(Subscriber subscriber : simpleSubscribers) {
                 subscriber.update(order);
             }
