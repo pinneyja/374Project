@@ -1,4 +1,16 @@
 package BusinessLayer;
 
-public class SimpleCoffeeMaker {
+import DataLayer.ControllerResponse;
+import ServiceLayer.Order;
+
+public class SimpleCoffeeMaker extends CoffeeMaker {
+    @Override
+    public void update(ControllerResponse controllerResponse) {
+        // TODO: implement
+    }
+
+    @Override
+    public void update(Order order) {
+        // TODO: implement
+    }
 }

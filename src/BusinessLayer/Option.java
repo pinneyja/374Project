@@ -10,10 +10,10 @@ public class Option {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public int getQuantity() {
-        return this.quantity;
+        return quantity;
     }
 }

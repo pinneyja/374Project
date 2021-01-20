@@ -1,5 +1,5 @@
 package BusinessLayer;
 
-public class CoffeeMaker {
+public abstract class CoffeeMaker implements Observer, Subscriber {
 
 }
