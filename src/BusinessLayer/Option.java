@@ -4,7 +4,7 @@ public class Option {
     private String name;
     private int quantity;
 
-    Option(String name, int quantity) {
+    public Option(String name, int quantity) {
         this.name = name;
         this.quantity = quantity;
     }

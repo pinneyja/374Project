@@ -9,7 +9,7 @@ public class Order {
     private String streetAddress, drinkName;
     ArrayList<Option> options;
 
-    Order(int orderID, String streetAddress, int zipCode, String drinkName, ArrayList<Option> options) {
+    public Order(int orderID, String streetAddress, int zipCode, String drinkName, ArrayList<Option> options) {
         this.orderID = orderID;
         this.streetAddress = streetAddress;
         this.zipCode = zipCode;
