@@ -14,4 +14,9 @@ public class AdvancedCoffeeMaker extends CoffeeMaker {
     public void update(Order order) {
         // TODO: implement
     }
+
+    @Override
+    public void buildAppResponse() {
+        // TODO: implement
+    }
 }
