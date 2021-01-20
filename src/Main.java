@@ -44,8 +44,8 @@ public class Main {
         System.out.println("Starting interface");
         ApplicationInterface applicationInterface = new ApplicationInterface();
 
-        for(int i = 0; i < ORDERS.length; i ++) {
-            applicationInterface.placeOrder(ORDERS[i]);
+        for (String order : ORDERS) {
+            applicationInterface.placeOrder(order);
         }
     }
 }
