@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import BusinessLayer.AppResponse;
 import BusinessLayer.CoffeeMaker;
 import BusinessLayer.Option;
 import org.json.JSONArray;
@@ -48,7 +49,7 @@ public class ControllerInterface implements Subject {
 	}
 
 	/*
-	 * Takes in a String of the Controller Response. Will parse the JSON and turn it
+	 * Takes in a String of the Controller Response. Will JSONParser the JSON and turn it
 	 * into a ControllerResponse Object. This object will be passed back to the
 	 * correct CoffeeMaker
 	 */
