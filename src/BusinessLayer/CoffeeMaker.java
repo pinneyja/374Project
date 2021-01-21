@@ -56,7 +56,7 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
 
     public void update(Order order) {
         Command command = buildCommand(order);
-        controllerInterface.sendCommand(command);
+        controllerInterface.receiveCommand(command);
     }
 
 }
