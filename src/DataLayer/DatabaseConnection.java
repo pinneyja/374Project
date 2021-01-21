@@ -31,7 +31,7 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
 
         String str;
 		try {
-			str = createControllerResponseString(new File("controllers.json"));
+			str = createControllerResponseString(new File("./src/DataLayer/controllers.json"));
 			 ArrayList<CoffeeMachine> machines= parseCM(str);
 
 		        return machines;
