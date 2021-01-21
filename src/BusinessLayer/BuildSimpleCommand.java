@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class BuildSimpleCommand implements BuildCommandBehavior {
     @Override
     public Command buildCommand(Order order) {
+        System.out.println("Building simple command!");
         int coffeeMachineID = 0; // TODO: get list of coffee machines from DB for this address, make sure they are simple, then choose random
         int controllerID = 0; // TODO: get controller ID for that coffee machine
 

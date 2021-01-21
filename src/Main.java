@@ -1,4 +1,6 @@
+import BusinessLayer.AdvancedCoffeeMaker;
 import BusinessLayer.AppResponse;
+import BusinessLayer.SimpleCoffeeMaker;
 import ServiceLayer.ApplicationInterface;
 
 import java.util.ArrayList;

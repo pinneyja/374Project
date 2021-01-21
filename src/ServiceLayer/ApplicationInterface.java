@@ -1,7 +1,9 @@
 package ServiceLayer;
 
+import BusinessLayer.AdvancedCoffeeMaker;
 import BusinessLayer.AppResponse;
 import BusinessLayer.Option;
+import BusinessLayer.SimpleCoffeeMaker;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +37,9 @@ public class ApplicationInterface extends Publisher {
     public ApplicationInterface() {
         orders = new HashMap<>();
         this.eventChannel = new EventChannel();
+
+        new SimpleCoffeeMaker(this);
+        new AdvancedCoffeeMaker(this);
     }
 
     public void placeOrder(String jsonOrder) {

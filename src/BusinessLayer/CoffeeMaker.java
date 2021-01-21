@@ -14,7 +14,8 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
 
     public CoffeeMaker(ApplicationInterface applicationInterface) {
         this.applicationInterface = applicationInterface;
-
+        orderIDtoCoffeeMachineID = new HashMap<>();
+        
         statusToMessage = new HashMap<>();
         statusToMessage.put(0, "Your coffee has been prepared with your desired options.");
         statusToMessage.put(1, "Your coffee order has been cancelled.");
