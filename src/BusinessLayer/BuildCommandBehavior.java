@@ -1,5 +1,7 @@
 package BusinessLayer;
 
+import ServiceLayer.Order;
+
 public interface BuildCommandBehavior {
-    Command buildCommand();
+    Command buildCommand(Order order);
 }
