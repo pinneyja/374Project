@@ -1,5 +1,6 @@
 package BusinessLayer;
 
+import DataLayer.ControllerInterface;
 import DataLayer.ControllerResponse;
 import ServiceLayer.ApplicationInterface;
 import ServiceLayer.Order;
@@ -11,7 +12,7 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
     protected HashMap<Integer, Integer> orderIDtoCoffeeMachineID;
     private HashMap<Integer, String> statusToMessage;
     protected ApplicationInterface applicationInterface;
-
+    private ControllerInterface controllerInterface;
 
     public CoffeeMaker(ApplicationInterface applicationInterface) {
         this.applicationInterface = applicationInterface;
@@ -21,7 +22,7 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
         statusToMessage.put(0, "Your coffee has been prepared with your desired options.");
         statusToMessage.put(1, "Your coffee order has been cancelled.");
 
-        // TODO make new Controller interface
+        controllerInterface = new ControllerInterface();
     }
 
     public Command buildCommand(Order order) {
@@ -54,9 +55,8 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
     }
 
     public void update(Order order) {
-        buildCommand(order);
-
-        // TODO: send to controller interface
+        Command command = buildCommand(order);
+        controllerInterface.sendCommand(command);
     }
 
 }
