@@ -56,7 +56,12 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
 
     public void update(Order order) {
         Command command = buildCommand(order);
-        controllerInterface.receiveCommand(command);
+
+        if(command.getCoffeeMachineID() < 0 || command.getControllerID() < 0) {
+            update(new ControllerResponse(order.getOrderID(), 1, -1, "No machines available."));
+        } else {
+            controllerInterface.receiveCommand(command);
+        }
     }
 
 }

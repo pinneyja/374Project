@@ -1,14 +1,14 @@
-Package DataLayer
+package DataLayer;
 
-Public Class CoffeeMachine{
+public class CoffeeMachine{
     private int machineId;
     private int controllerID;
     private String type;
 
-    public CoffeeMachine(int mId, int cID, String type){
-        this.machineId=mId;
-        this.controllerID=cID;
-        this.type=type;
+    public CoffeeMachine(int machineID, int controllerID, String type){
+        this.machineId = machineID;
+        this.controllerID = controllerID;
+        this.type = type;
     }
 
     public int getMachineId(){

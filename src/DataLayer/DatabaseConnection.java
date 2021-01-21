@@ -3,9 +3,11 @@ package DataLayer;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
- 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
  
@@ -18,13 +20,13 @@ public class DatabaseConnection {
     // public DatabaseConnection(Database db) {
     // }
 
-    public ArrayList<CoffeeMachine> sendMessage(String address) {
+    public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode) {
         //So, ideal return would be {[coffeeMachID:"1", type:""],[coffeeMachID:"2", type:""]}
   
         //JSON parser object to parse read file
 
         JSONParser jsonParser = new JSONParser();
-        List<CoffeeMachine> controllerList = new ArrayList<CoffeeMachine>(); 
+        List<CoffeeMachine> controllerList = new ArrayList<CoffeeMachine>();
 
         try (FileReader reader = new FileReader("controllers.json"))
         {
