@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import BusinessLayer.AppResponse;
 import BusinessLayer.CoffeeMaker;
@@ -21,14 +22,14 @@ public class DatabaseConnection {
     // public DatabaseConnection(Database db) {
     // }
 
-public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode){
+public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode) throws FileNotFoundException{
         //So, ideal return would be {[coffeeMachID:"1", type:""],[coffeeMachID:"2", type:""]}
   
         //JSON parser object to parse read file
 
         List<CoffeeMachine> controllerList = new ArrayList<CoffeeMachine>(); 
 
-        String str= createControllerResponseString("controllers.json");
+        String str= createControllerResponseString(new File("controllers.json"));
         ArrayList<CoffeeMachine> machines= parseCM(str);
 
         return machines;
