@@ -35,4 +35,8 @@ public class Command {
     public String getRequestType() {
         return requestType;
     }
+
+    public ArrayList<Option> getOptions() {
+        return options;
+    }
 }

@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import BusinessLayer.AppResponse;
+import BusinessLayer.Option;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import BusinessLayer.Command;
@@ -18,6 +22,17 @@ public class ControllerInterface implements Subject {
     private static final String CR_STATUS_KEY = "status";
     private static final String CR_ERROR_CODE_KEY = "errorcode";
     private static final String CR_ERROR_DESC_KEY = "errordesc";
+
+    // Command Keys
+	private static final String C_COMMAND_KEY = "command";
+	private static final String C_CONTROLLER_ID_KEY = "controller_id";
+	private static final String C_COFFEE_MACHINE_ID_KEY = "coffee_machine_id";
+	private static final String C_ORDER_ID_KEY = "orderID";
+	private static final String C_DRINK_NAME_KEY = "DrinkName";
+	private static final String C_REQUEST_TYPE_KEY = "Requesttype";
+	private static final String C_OPTIONS_KEY = "Options";
+	private static final String C_OPTION_NAME_KEY = "Name";
+	private static final String C_OPTION_QUANTITY_KEY = "qty";
 
 	Command command;
 	ControllerResponse controllerResponse;
@@ -61,8 +76,34 @@ public class ControllerInterface implements Subject {
 	}
 	
 	
-	public void sendCommand (Command c) {
-		
+	public String sendCommand (Command command) {
+		JSONObject jsonCommand = new JSONObject().put(C_COMMAND_KEY, new JSONObject());
+		JSONObject jsonCommandBody = jsonCommand.getJSONObject(C_COMMAND_KEY);
+
+		jsonCommandBody.put(C_CONTROLLER_ID_KEY, command.getControllerID());
+		jsonCommandBody.put(C_COFFEE_MACHINE_ID_KEY, command.getCoffeeMachineID());
+		jsonCommandBody.put(C_ORDER_ID_KEY, command.getOrderID());
+		jsonCommandBody.put(C_DRINK_NAME_KEY, command.getDrinkName());
+		jsonCommandBody.put(C_REQUEST_TYPE_KEY, command.getRequestType());
+
+		ArrayList<Option> options = command.getOptions();
+		if(options != null) {
+			jsonCommandBody.put(C_OPTIONS_KEY, new JSONArray());
+			JSONArray jsonCommandBodyOptions = jsonCommandBody.getJSONArray(C_OPTIONS_KEY);
+
+			for(Option option : options) {
+				JSONObject jsonOption = new JSONObject();
+				jsonOption.put(C_OPTION_NAME_KEY, option.getName());
+				jsonOption.put(C_OPTION_QUANTITY_KEY, option.getQuantity());
+
+				jsonCommandBodyOptions.put(jsonOption);
+			}
+		}
+
+		String jsonCommandString = jsonCommand.toString(4);
+		System.out.println("Sending this command via hardware to the controller:\"\n" + jsonCommandString + "\n\"");
+
+		return jsonCommandString;
 	}
 
 	@Override
