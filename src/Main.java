@@ -1,9 +1,4 @@
-import BusinessLayer.AdvancedCoffeeMaker;
-import BusinessLayer.AppResponse;
-import BusinessLayer.SimpleCoffeeMaker;
 import ServiceLayer.ApplicationInterface;
-
-import java.util.ArrayList;
 
 public class Main {
     private static final String[] ORDERS = {
