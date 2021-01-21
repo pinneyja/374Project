@@ -80,12 +80,10 @@ public class ApplicationInterface extends Publisher {
             }
         } catch (JSONException ignored) {}
 
-
-
         return new Order(orderID, streetAddress, zipCode, drinkName, orderOptions);
     }
 
-    public void returnAppResponse(AppResponse appResponse) {
+    public String returnAppResponse(AppResponse appResponse) {
         JSONObject jsonAppResponse = new JSONObject().put(AR_USER_RESPONSE_KEY, new JSONObject());
         JSONObject jsonUserResponse = jsonAppResponse.getJSONObject(AR_USER_RESPONSE_KEY);
 
@@ -99,7 +97,10 @@ public class ApplicationInterface extends Publisher {
             jsonUserResponse.put(AR_ERROR_MESSAGE_KEY, errorMessage);
         }
 
-        System.out.println("ApplicationInterface responded with: \"\n" + jsonAppResponse.toString(4) + "\n\"");
+        String output = jsonAppResponse.toString(4);
+        System.out.println("ApplicationInterface responded with: \"\n" + output + "\n\"");
+
+        return output;
     }
 
     @Override
