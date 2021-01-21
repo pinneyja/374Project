@@ -15,10 +15,12 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
     public CoffeeMaker(ApplicationInterface applicationInterface) {
         this.applicationInterface = applicationInterface;
         orderIDtoCoffeeMachineID = new HashMap<>();
-        
+
         statusToMessage = new HashMap<>();
         statusToMessage.put(0, "Your coffee has been prepared with your desired options.");
         statusToMessage.put(1, "Your coffee order has been cancelled.");
+
+        // TODO make new Controller interface
     }
 
     public Command buildCommand(Order order) {
@@ -52,6 +54,8 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
 
     public void update(Order order) {
         buildCommand(order);
+
+        // TODO: send to controller interface
     }
 
 }
