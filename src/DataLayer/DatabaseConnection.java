@@ -61,7 +61,7 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
         ArrayList controllerList= new ArrayList<CoffeeMachine>();
 
         JSONArray something = new JSONArray(str);
-        for(int i; i<something.length(); i++){
+        for(int i=0; i<something.length(); i++){
             JSONObject j=something.getJSONObject(i);
             CoffeeMachine currentMachine = new CoffeeMachine(j.getInt("coffee_machine_id") ,j.getInt("ControllerID"), j.getString("Type"));
             controllerList.add(currentMachine);
