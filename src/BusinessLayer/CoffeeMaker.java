@@ -12,6 +12,7 @@ public abstract class CoffeeMaker implements Observer, Subscriber {
     private HashMap<Integer, String> statusToMessage;
     protected ApplicationInterface applicationInterface;
 
+
     public CoffeeMaker(ApplicationInterface applicationInterface) {
         this.applicationInterface = applicationInterface;
         orderIDtoCoffeeMachineID = new HashMap<>();
