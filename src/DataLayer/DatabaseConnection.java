@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,8 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
 
         String str;
 		try {
-			str = createControllerResponseString(new File("./src/DataLayer/controllers.json"));
+			URL url = getClass().getResource("controllers.json");
+			str = createControllerResponseString(new File(url.getPath()));
 			 ArrayList<CoffeeMachine> machines= parseCM(str);
 
 		        return machines;
