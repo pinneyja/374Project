@@ -39,6 +39,7 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
        
     }
 	public String createControllerResponseString(File controllerResponseFile) throws FileNotFoundException {
