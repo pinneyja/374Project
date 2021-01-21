@@ -15,8 +15,8 @@ public class DatabaseConnection {
     public DatabaseConnection() {
     }
 
-    public DatabaseConnection(Database db) {
-    }
+    // public DatabaseConnection(Database db) {
+    // }
 
     public ArrayList<ArrayList<String>> sendMessage(String address) {
         //So, ideal return would be {[coffeeMachID:"1", type:""],[coffeeMachID:"2", type:""]}
@@ -25,7 +25,7 @@ public class DatabaseConnection {
 
         JSONParser jsonParser = new JSONParser();
         List<List<String>> controllerList = new ArrayList<ArrayList<String>>(); 
-        
+
         try (FileReader reader = new FileReader("controllers.json"))
         {
             //Read JSON file
