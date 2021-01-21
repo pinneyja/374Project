@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import BusinessLayer.AppResponse;
 import BusinessLayer.CoffeeMaker;
 import BusinessLayer.Option;
 import org.json.JSONArray;
