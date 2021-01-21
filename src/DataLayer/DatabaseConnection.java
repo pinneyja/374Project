@@ -18,13 +18,13 @@ public class DatabaseConnection {
     // public DatabaseConnection(Database db) {
     // }
 
-    public ArrayList<ArrayList<String>> sendMessage(String address) {
+    public ArrayList<CoffeeMachine> sendMessage(String address) {
         //So, ideal return would be {[coffeeMachID:"1", type:""],[coffeeMachID:"2", type:""]}
   
         //JSON parser object to parse read file
 
         JSONParser jsonParser = new JSONParser();
-        List<List<String>> controllerList = new ArrayList<ArrayList<String>>(); 
+        List<CoffeeMachine> controllerList = new ArrayList<CoffeeMachine>(); 
 
         try (FileReader reader = new FileReader("controllers.json"))
         {
@@ -39,10 +39,8 @@ public class DatabaseConnection {
                         JSONObject controller = (JSONObject) con.get("controller");
 
                         if(controller.get("StreetAddress").equals(address)){
-                            ArrayList currentController = new ArrayList<String>();
-                            currentController.add(controller.get("ControllerID").toString());
-                            currentController.add(controller.get("Type").toString());
-                            controllerList.add(currentController);
+                            CoffeeMachine currentMachine = new CoffeeMachine(controller.get("coffee_machine_id") ,controller.get("ControllerID"), controller.get("Type"));
+                            controllerList.add(currentMachine);
                         }
                     });
 
