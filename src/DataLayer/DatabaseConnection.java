@@ -22,17 +22,24 @@ public class DatabaseConnection {
     // public DatabaseConnection(Database db) {
     // }
 
-public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode) throws FileNotFoundException{
+public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode){
         //So, ideal return would be {[coffeeMachID:"1", type:""],[coffeeMachID:"2", type:""]}
   
         //JSON parser object to parse read file
 
         List<CoffeeMachine> controllerList = new ArrayList<CoffeeMachine>(); 
 
-        String str= createControllerResponseString(new File("controllers.json"));
-        ArrayList<CoffeeMachine> machines= parseCM(str);
+        String str;
+		try {
+			str = createControllerResponseString(new File("controllers.json"));
+			 ArrayList<CoffeeMachine> machines= parseCM(str);
 
-        return machines;
+		        return machines;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
     }
 	public String createControllerResponseString(File controllerResponseFile) throws FileNotFoundException {
 		FileReader reader = new FileReader(controllerResponseFile);
@@ -54,7 +61,7 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
         ArrayList controllerList= new ArrayList<CoffeeMachine>();
 
         JSONArray something = new JSONArray(str);
-        for(int i=0; i<something.length(); i++){
+        for(int i; i<something.length(); i++){
             JSONObject j=something.getJSONObject(i);
             CoffeeMachine currentMachine = new CoffeeMachine(j.getInt("coffee_machine_id") ,j.getInt("ControllerID"), j.getString("Type"));
             controllerList.add(currentMachine);
