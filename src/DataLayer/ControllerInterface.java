@@ -22,10 +22,8 @@ public class ControllerInterface implements Subject {
 	Command command;
 	ControllerResponse controllerResponse;
 		
-	public ControllerInterface(Command c) {
-		this.command = c;
+	public ControllerInterface() {
 	}
-	
 	
 	/*
 	 * Takes in a String of the Controller Response. Will parse the
@@ -35,15 +33,10 @@ public class ControllerInterface implements Subject {
 	public ControllerResponse parseControllerResponse (String jsonCRAsString) {
 		
 		    JSONObject jsonDrinkResponse = new JSONObject(jsonCRAsString).getJSONObject(CR_DRINK_KEY);
-
-	        int orderID = jsonDrinkResponse.getInt(CR_ORDER_ID_KEY);
-	        
-	        int status = jsonDrinkResponse.getInt(CR_STATUS_KEY);
-	        
-	        String errorDesc = jsonDrinkResponse.getString(CR_ERROR_DESC_KEY);
-	        
-	        int errorCode = jsonDrinkResponse.getInt(CR_ERROR_CODE_KEY);
-	        
+	        int orderID = jsonDrinkResponse.getInt(CR_ORDER_ID_KEY); 
+	        int status = jsonDrinkResponse.getInt(CR_STATUS_KEY);   
+	        String errorDesc = jsonDrinkResponse.getString(CR_ERROR_DESC_KEY);   
+	        int errorCode = jsonDrinkResponse.getInt(CR_ERROR_CODE_KEY);  
 	        return new ControllerResponse(orderID, status, errorCode, errorDesc);
 	}
 	
