@@ -1,0 +1,24 @@
+
+[
+    {
+        "controller": {
+            "ControllerID":1,
+            "Type":"Simple",
+            "StreetAddress":"200 N. Main"
+        }
+    },
+    {
+        "controller": {
+            "ControllerID":2,
+            "Type":"Advanced",
+            "StreetAddress":"200 N. Main"
+        }
+    },
+    {
+        "controller": {
+            "ControllerID":3,
+            "Type":"Programmable",
+            "StreetAddress":"200 N. Main"
+        }
+    }
+]
