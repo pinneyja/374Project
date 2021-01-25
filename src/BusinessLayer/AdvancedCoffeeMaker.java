@@ -3,10 +3,11 @@ package BusinessLayer;
 import ServiceLayer.ApplicationInterface;
 
 public class AdvancedCoffeeMaker extends CoffeeMaker {
-    public AdvancedCoffeeMaker(ApplicationInterface applicationInterface) {
-        super(applicationInterface);
-
+    public AdvancedCoffeeMaker() {
         this.buildCommandBehavior = new BuildAdvancedCommand();
-        this.applicationInterface.getEventChannel().registerAdvancedSubscriber(this);
+    }
+
+    public void setBuildCommandBehavior(BuildCommandBehavior buildCommandBehavior) {
+        this.buildCommandBehavior = buildCommandBehavior;
     }
 }

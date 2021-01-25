@@ -5,16 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
-import BusinessLayer.AppResponse;
-import BusinessLayer.CoffeeMaker;
-import BusinessLayer.Option;
+import BusinessLayer.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import BusinessLayer.Command;
-
-public class ControllerInterface implements Subject {
+public class ControllerInterface implements DataSubject {
 
 	// Controller Response Keys
 	private static final String CR_DRINK_KEY = "drinkresponse";
@@ -34,11 +31,12 @@ public class ControllerInterface implements Subject {
 	private static final String C_OPTION_NAME_KEY = "Name";
 	private static final String C_OPTION_QUANTITY_KEY = "qty";
 
-	ArrayList<CoffeeMaker> coffeeMakers;
+	HashSet<DataObserver> dataObservers;
 	ControllerResponse controllerResponse;
 	Command command;
 
 	public ControllerInterface() {
+		dataObservers = new HashSet<>();
 	}
 
 	/*
@@ -139,23 +137,19 @@ public class ControllerInterface implements Subject {
 	 * ControllerInterface
 	 */
 	@Override
-	public void registerObserver(CoffeeMaker cM) {
-		coffeeMakers.add(cM);
+	public void registerObserver(DataObserver dataObserver) {
+		dataObservers.add(dataObserver);
 	}
 
 	@Override
-	public void removeObserver(CoffeeMaker cM) {
-		int i = coffeeMakers.indexOf(cM);
-		if (i >= 0) {
-			coffeeMakers.remove(i);
-		}
+	public void removeObserver(DataObserver dataObserver) {
+		dataObservers.remove(dataObserver);
 	}
 
 	@Override
 	public void notifyObservers(ControllerResponse response) {
-		for (int i = 0; i < coffeeMakers.size(); i++) {
-			CoffeeMaker maker = coffeeMakers.get(i);
-			maker.update(response);
+		for(DataObserver dataObserver : dataObservers) {
+			dataObserver.update(response);
 		}
 	}
 }

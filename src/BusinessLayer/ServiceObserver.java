@@ -2,6 +2,6 @@ package BusinessLayer;
 
 import ServiceLayer.Order;
 
-public interface Subscriber {
+public interface ServiceObserver {
     void update(Order order);
 }

@@ -1,17 +1,15 @@
 package ServiceLayer;
 
-import BusinessLayer.AdvancedCoffeeMaker;
-import BusinessLayer.AppResponse;
-import BusinessLayer.Option;
-import BusinessLayer.SimpleCoffeeMaker;
+import BusinessLayer.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
-public class ApplicationInterface extends Publisher {
+public class ApplicationInterface implements ServiceSubject {
     // Order Keys
     private static final String O_ORDER_KEY = "order";
     private static final String O_ORDER_ID_KEY = "orderID";
@@ -31,15 +29,14 @@ public class ApplicationInterface extends Publisher {
     private static final String AR_STATUS_MESSAGE_KEY = "status-message";
     private static final String AR_ERROR_MESSAGE_KEY = "error-message";
 
-
+    HashSet<ServiceObserver> observers;
     HashMap<Integer, Order> orders;
 
     public ApplicationInterface() {
+        observers = new HashSet<>();
         orders = new HashMap<>();
-        this.eventChannel = new EventChannel();
 
-        new SimpleCoffeeMaker(this);
-        new AdvancedCoffeeMaker(this);
+        new OrderManager(this);
     }
 
     public void placeOrder(String jsonOrder) {
@@ -47,7 +44,7 @@ public class ApplicationInterface extends Publisher {
             Order newOrder = parseOrder(jsonOrder);
             orders.put(newOrder.getOrderID(), newOrder);
 
-            publishEvent(newOrder);
+            notifyObservers(newOrder);
         } catch (JSONException exception) {
             System.out.println("Oops! Something was formatted incorrectly in the order:\"\n" + jsonOrder + "\n\". " +
                     "It caused the following error: \"" + exception.getMessage() + "\" Please try again!");
@@ -104,11 +101,21 @@ public class ApplicationInterface extends Publisher {
     }
 
     @Override
-    void publishEvent(Order order) {
-        eventChannel.notifySubscribers(order);
+    public void registerObserver(ServiceObserver serviceObserver) {
+        observers.add(serviceObserver);
     }
 
-    public EventChannel getEventChannel() {
-        return this.eventChannel;
+    @Override
+    public void removeObserver(ServiceObserver serviceObserver) {
+        if(observers.contains(serviceObserver)) {
+            observers.add(serviceObserver);
+        }
+    }
+
+    @Override
+    public void notifyObservers(Order order) {
+        for(ServiceObserver serviceObserver : observers) {
+            serviceObserver.update(order);
+        }
     }
 }

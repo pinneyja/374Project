@@ -2,6 +2,6 @@ package BusinessLayer;
 
 import DataLayer.ControllerResponse;
 
-public interface Observer {
+public interface DataObserver {
     void update(ControllerResponse controllerResponse);
 }
