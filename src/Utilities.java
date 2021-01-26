@@ -1,18 +1,25 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URI;
+import java.io.*;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 public class Utilities {
 
-    public static String readStringFromLocalFile(String localResourcesPath) {
-        return fileToString(stringPathToFile(localResourcesPath));
+    public static String readStringFromLocalFile(String localResourceFileName) {
+        return fileToString(stringPathToFile(localResourceFileName));
+    }
+
+    public static void writeStringToLocalFile(String localResourceFileName, String fileData) {
+        String dir = Paths.get("").toAbsolutePath().getParent().toString();
+        String localPath = dir + "\\resources\\out\\" + localResourceFileName;
+
+        System.out.println(localPath);
+        try {
+            FileWriter fileWriter = new FileWriter(localPath);
+            fileWriter.write(fileData);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static File stringPathToFile(String path) {
