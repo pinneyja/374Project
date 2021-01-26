@@ -11,8 +11,7 @@ public class Utilities {
     public static void writeStringToLocalFile(String localResourceFileName, String fileData) {
         String dir = Paths.get("").toAbsolutePath().getParent().toString();
         String localPath = dir + "\\resources\\out\\" + localResourceFileName;
-
-        System.out.println(localPath);
+        
         try {
             FileWriter fileWriter = new FileWriter(localPath);
             fileWriter.write(fileData);
