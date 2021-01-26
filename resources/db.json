@@ -1,0 +1,222 @@
+{
+"Capability":
+	[
+		{
+		"Simple":{
+			"CapabilityName":"Simple",
+			"Description":"Produces drink only without any options or condiments"
+			}
+		},
+		{
+		"Advanced":{
+			"CapabilityName":"Advanced",
+			"Description":"Produces drinks with options includeing condiments"
+			}
+		},
+		{
+		"Programmable":{
+			"CapabilityName":"Programmable",
+			"Description":"Allows detailed control over order, type and amount of ingredients"
+			}
+		}
+	],
+"Controller":
+	[
+		{
+		"ControllerID1":{
+			"ControllerID":1,
+			"Type":"Simple",
+			"Street_Address":"200 N. Main",
+			"ZIP_code":47803
+			}
+		},
+		{
+		"ControllerID2":{
+			"ControllerID":2,
+			"Type":"Advanced",
+			"Street_Address":"200 N. Main",
+			"ZIP_code":47803
+			}
+		},
+		{
+		"ControllerID3":{
+			"ControllerID":3,
+			"Type":"Simple",
+			"Street_Address":"3 S. Walnut",
+			"ZIP_code":60601
+			}
+		}	
+	],
+"DrinkTypes":
+	[
+		{
+		"Americano":{
+			"DrinkName": "Americano",
+			"Description": "Regular caffinated coffee"
+			}
+		},
+		{
+		"Latte":{
+			"DrinkName": "Latte",
+			"Description":"Coffee drink with milk and whipped cream"
+			}
+		},
+		{
+		"Decaff":{
+			"DrinkName":"Decaff",
+			"Description":"Regular decaffinated coffee"
+			}
+		},
+		{
+		"Expresso":{
+			"DrinkName":"Expresso",
+			"Description":"Coffee concentrated"
+			}
+		},
+		{
+		"ColumbiaDark":{
+			"DrinkName":"Columbia Dark",
+			"Description":"Stronger roast with Columbian beans"
+			}
+		},
+		{
+		"PumkinSpice":{
+			"DrinkName":"Pumkin Spice",
+			"Description":"Seasonal drink w/Pumkin"
+			}
+		}
+	],
+"Ingredient":
+	[
+		{
+		"Coffee":{
+			"Name":"Coffee",
+			"Description":"Reg. Coffee beans. ground"
+			}
+		},
+		{
+		"Milk":{
+			"Name":"Milk",
+			"Description":"Regular dairy milk"
+			}
+		},
+		{
+		"SoyMilk":{
+			"Name":"Soy Milk",
+			"Description":"Milk-like, but from soybeans"
+			}
+		},
+		{
+		"Sugar":{
+			"Name":"Sugar",
+			"Description":"Regular sugar cane sugar"
+			}
+		},
+		{
+		"DecaffCoffee":{
+			"Name":"Decaff Coffee"
+			}
+		},
+		{
+		"WhippedCream":{
+			"Name":"Whipped Cream",
+			"Description":"Dairy-based heavy whipped cream"
+			}
+		},
+		{
+		"PumkinSpice":{
+			"Name":"Pumkin Spice",
+			"Description":"Spice additive"
+			}
+		}
+	],	
+"CoffeeMaker":
+	[
+		{
+		"CoffeeMaker1":{
+			"MachineID":1,
+			"Controller":2,
+			"Description":"Advanced Italian"
+			}
+		},
+		{
+		"CoffeeMaker2":{
+			"MachineID":2,
+			"Controller":1,
+			"Description":"Manual expresso"
+			}
+		}
+	],
+"DrinkIngredent":
+	[
+		{
+		"Americano":{
+			"DrinkName":"Americano",
+			"IngredientName":["Coffee"]
+			}
+		},
+		{
+		"Latte":{
+			"DrinkName":"Latte",
+			"IngredientName":["Coffee","Milk","Whipped Cream","Sugar"]
+			}
+		},
+		{
+		"Pumkin Spice":{
+			"DrinkName":"Pumkin Spice",
+			"IngredientName":["Coffee","Sugar","Pumkin Spice"]
+			}
+		}
+	],
+"CoffeemakerDrink":
+	[
+		{
+		"CoffeemakerDrink1":{
+			"CoffeeMaker":1,
+			"DrinkType":["Latte","Americano","Expresso","Columbia Dark","Decaff"]
+			}
+		},
+		{
+		"CoffeemakerDrink2":{
+			"CoffeeMaker":2,
+			"DrinkType":["Expresso","Latte"]
+			}
+		}
+	],
+"Condiment":
+	[
+		{
+		"Cream":{
+			"Name":"Cream",
+			"Description":"Dairy based individual serving"
+			}
+		},
+		{
+		"Sugar":{
+			"Name":"Sugar",
+			"Description":"Cane sugar teaspoon"
+			}
+		},
+		{
+		"NutraSweet":{
+			"Name":"NutraSweet",
+			"Description":"Individual serving"
+			}
+		}
+	],
+"CoffeeMakerCapability":
+	[
+		{
+		"CoffeeMaker1":{
+			"CoffeeMaker":1,
+			"Capability":["Simple","Automated"]
+			}
+		},
+		{
+		"CoffeeMaker2":{
+			"CoffeeMaker":2,
+			"Capability":["Simple"]
+			}
+		}
+	]
+}
