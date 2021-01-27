@@ -46,7 +46,7 @@ public class Main {
   //      ApplicationInterface applicationInterface = new ApplicationInterface();
         
         ControllerInterface con = new ControllerInterface();
-        System.out.println(con.createControllerResponseString());
+        System.out.println(con.parseControllerResponse());
 
   //      for (String order : ORDERS) {
  //           applicationInterface.placeOrder(order);

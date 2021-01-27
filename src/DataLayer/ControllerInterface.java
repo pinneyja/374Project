@@ -49,45 +49,35 @@ public class ControllerInterface implements DataSubject {
 	}
 
 	/*
+	 * This method will be called from (?). It is sent a File that gets converted to
+	 * a String. This string is what will be used to parse the JSON.
 	 * Takes in a String of the Controller Response. Will JSONParser the JSON and turn it
 	 * into a ControllerResponse Object. This object will be passed back to the
 	 * correct CoffeeMaker
 	 */
-	public ControllerResponse parseControllerResponse(String jsonCRAsString) {
+	public ControllerResponse parseControllerResponse() {
+		
+		String jsonCRAsString = Utilities.readStringFromLocalFile("Controller Response");
 
 		JSONObject jsonDrinkResponse = new JSONObject(jsonCRAsString).getJSONObject(CR_DRINK_KEY);
 		int orderID = jsonDrinkResponse.getInt(CR_ORDER_ID_KEY);
 		int status = jsonDrinkResponse.getInt(CR_STATUS_KEY);
-		String errorDesc = jsonDrinkResponse.getString(CR_ERROR_DESC_KEY);
-		int errorCode = jsonDrinkResponse.getInt(CR_ERROR_CODE_KEY);
+		String errorDesc = null;
+		Integer errorCode = null;
+		
+		if (jsonDrinkResponse.has(CR_ERROR_DESC_KEY)) {
+			errorDesc = jsonDrinkResponse.getString(CR_ERROR_DESC_KEY);
+		}
+		
+		if (jsonDrinkResponse.has(CR_ERROR_CODE_KEY)) {
+			errorCode = jsonDrinkResponse.getInt(CR_ERROR_CODE_KEY);
+		}
+		
 		return new ControllerResponse(orderID, status, errorCode, errorDesc);
 	}
 
 	/*
-	 * This method will be called from (?). It is sent a File that gets converted to
-	 * a String. This string is what will be used to parse the JSON.
-	 */
-	public String createControllerResponseString(){
-		
-		String jsonCRAsString = Utilities.readStringFromLocalFile("Controller Response");
-		
-//		FileReader reader = new FileReader(controllerResponseFile);
-//		StringBuilder sb = new StringBuilder();
-//
-//		try {
-//			while (reader.read() != -1) {
-//				sb.append(reader.read());
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		String jsonCRAsString = sb.toString();
-		return jsonCRAsString;
-	}
-
-	/*
-	 * This method handle sending the JSON to a external process.
+	 * This method handles sending the JSON to a external process.
 	 */
 //	public String sendCommand(Command command) {
 //		JSONObject jsonCommand = new JSONObject().put(C_COMMAND_KEY, new JSONObject());
@@ -128,14 +118,11 @@ public class ControllerInterface implements DataSubject {
 	 * Currently rigged to finish the process as if the external process sent back a
 	 * response.
 	 */
-
-//	public void sendBackResponse() throws FileNotFoundException {
-//		// Send command
-//		File newFile = new File("Controller Response.txt");
-//		String str = createControllerResponseString(newFile);
-//		ControllerResponse response = parseControllerResponse(str);
-//		notifyObservers(response);
-//	}
+	public void sendBackResponse(){
+		// Send command
+		ControllerResponse response = parseControllerResponse();
+		notifyObservers(response);
+	}
 
 	/*
 	 * The following methods handle interactions between the CoffeeMaker and the
