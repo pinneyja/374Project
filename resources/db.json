@@ -23,7 +23,7 @@
 "Controller":
 	[
 		{
-		"ControllerID1":{
+		"1":{
 			"ControllerID":1,
 			"Type":"Simple",
 			"Street_Address":"200 N. Main",
@@ -31,7 +31,7 @@
 			}
 		},
 		{
-		"ControllerID2":{
+		"2":{
 			"ControllerID":2,
 			"Type":"Advanced",
 			"Street_Address":"200 N. Main",
@@ -39,7 +39,7 @@
 			}
 		},
 		{
-		"ControllerID3":{
+		"3":{
 			"ControllerID":3,
 			"Type":"Simple",
 			"Street_Address":"3 S. Walnut",
@@ -74,13 +74,13 @@
 			}
 		},
 		{
-		"ColumbiaDark":{
+		"Columbia Dark":{
 			"DrinkName":"Columbia Dark",
 			"Description":"Stronger roast with Columbian beans"
 			}
 		},
 		{
-		"PumkinSpice":{
+		"Pumkin Spice":{
 			"DrinkName":"Pumkin Spice",
 			"Description":"Seasonal drink w/Pumkin"
 			}
@@ -101,7 +101,7 @@
 			}
 		},
 		{
-		"SoyMilk":{
+		"Soy Milk":{
 			"Name":"Soy Milk",
 			"Description":"Milk-like, but from soybeans"
 			}
@@ -113,18 +113,18 @@
 			}
 		},
 		{
-		"DecaffCoffee":{
+		"Decaff Coffee":{
 			"Name":"Decaff Coffee"
 			}
 		},
 		{
-		"WhippedCream":{
+		"Whipped Cream":{
 			"Name":"Whipped Cream",
 			"Description":"Dairy-based heavy whipped cream"
 			}
 		},
 		{
-		"PumkinSpice":{
+		"Pumkin Spice":{
 			"Name":"Pumkin Spice",
 			"Description":"Spice additive"
 			}
@@ -133,21 +133,21 @@
 "CoffeeMaker":
 	[
 		{
-		"CoffeeMaker1":{
+		"1":{
 			"MachineID":1,
 			"Controller":2,
 			"Description":"Advanced Italian"
 			}
 		},
 		{
-		"CoffeeMaker2":{
+		"2":{
 			"MachineID":2,
 			"Controller":1,
 			"Description":"Manual expresso"
 			}
 		}
 	],
-"DrinkIngredent":
+"DrinkIngredient":
 	[
 		{
 		"Americano":{
@@ -171,13 +171,13 @@
 "CoffeemakerDrink":
 	[
 		{
-		"CoffeemakerDrink1":{
+		"1":{
 			"CoffeeMaker":1,
 			"DrinkType":["Latte","Americano","Expresso","Columbia Dark","Decaff"]
 			}
 		},
 		{
-		"CoffeemakerDrink2":{
+		"2":{
 			"CoffeeMaker":2,
 			"DrinkType":["Expresso","Latte"]
 			}
@@ -207,13 +207,13 @@
 "CoffeeMakerCapability":
 	[
 		{
-		"CoffeeMaker1":{
+		"1":{
 			"CoffeeMaker":1,
 			"Capability":["Simple","Automated"]
 			}
 		},
 		{
-		"CoffeeMaker2":{
+		"2":{
 			"CoffeeMaker":2,
 			"Capability":["Simple"]
 			}
