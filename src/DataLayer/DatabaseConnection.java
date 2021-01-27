@@ -1,48 +1,31 @@
 package DataLayer;
 
+import Helpers.Utilities;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import BusinessLayer.AppResponse;
 import BusinessLayer.CoffeeMaker;
 import BusinessLayer.Option;
 import org.json.JSONArray;
-import org.json.JSONObject;
- 
+import org.json.JSONObject; 
 
 public class DatabaseConnection {
  
     public DatabaseConnection() {
     }
 
-    // public DatabaseConnection(Database db) {
-    // }
-
 public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode){
-        //So, ideal return would be {[coffeeMachID:"1", type:""],[coffeeMachID:"2", type:""]}
-  
-        //JSON parser object to parse read file
-
-        List<CoffeeMachine> controllerList = new ArrayList<CoffeeMachine>(); 
-
-        String str;
-		try {
-			URL url = getClass().getResource("controllers.json");
-			str = createControllerResponseString(new File(url.getPath()));
-			 ArrayList<CoffeeMachine> machines= parseCM(str);
-
-		        return machines;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-       
+			String str = Utilities.readStringFromLocalFile("db.json");
+			
+			ArrayList<CoffeeMachine> machines= parseCoffeeMachinesatAddress(str, address, zipCode);
+	        return machines;
     }
 	public String createControllerResponseString(File controllerResponseFile) throws FileNotFoundException {
 		FileReader reader = new FileReader(controllerResponseFile);
@@ -60,17 +43,34 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
 		return jsonCRAsString;
 	}
 
-    public ArrayList<CoffeeMachine> parseCM(String str){
-        ArrayList controllerList= new ArrayList<CoffeeMachine>();
+    public ArrayList<CoffeeMachine> parseCoffeeMachinesatAddress(String str, String address, int zipCode){
+        ArrayList<CoffeeMachine> controllerList= new ArrayList<CoffeeMachine>();
+        
+        JSONObject db = new JSONObject(str.trim()); //whole db jsonObject version of db string {"Table":{}, "Table2":{}, ...}
+        JSONObject coffeeMakerTable = db.getJSONObject("CoffeeMaker"); 
+        JSONObject controllerTable = db.getJSONObject("Controller"); 
 
-        JSONArray something = new JSONArray(str);
-        for(int i=0; i<something.length(); i++){
-            JSONObject j=something.getJSONObject(i);
-            CoffeeMachine currentMachine = new CoffeeMachine(j.getInt("coffee_machine_id") ,j.getInt("ControllerID"), j.getString("Type"));
-            controllerList.add(currentMachine);
-            
+        Iterator<String> keys = coffeeMakerTable.keys();
+
+        while(keys.hasNext()) {
+            String key = keys.next();
+            if (coffeeMakerTable.get(key) instanceof JSONObject) {
+            		//gets current machine
+        			JSONObject instanceOfCoffeeMaker = (JSONObject)coffeeMakerTable.get(key);//"Name":{...} aka what we need or instance of db row
+        			//Gets current machine's controller
+        			String controllerNumber=String.valueOf(instanceOfCoffeeMaker.getInt("ControllerID")); 
+        			JSONObject instanceOfController=controllerTable.getJSONObject(controllerNumber);
+        
+        			
+        			if(instanceOfCoffeeMaker.getString("Street_Address")==address && instanceOfCoffeeMaker.getInt("ZIP_code")==zipCode) {
+				        CoffeeMachine currentMachine = new CoffeeMachine(instanceOfCoffeeMaker.getInt("MachineID"),
+				        												 instanceOfCoffeeMaker.getInt("ControllerID"), 
+				        												 instanceOfController.getString("Type"));
+	        			controllerList.add(currentMachine);
+        			}
+            }
         }
+        
         return controllerList;
     }
-
 }
