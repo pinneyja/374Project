@@ -6,7 +6,14 @@ import DataLayer.DatabaseConnection;
 import ServiceLayer.ApplicationInterface;
 import ServiceLayer.Order;
 
+import java.time.Duration;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class OrderManager implements DataObserver, ServiceObserver{
     DatabaseConnection databaseConnection;
@@ -47,12 +54,67 @@ public class OrderManager implements DataObserver, ServiceObserver{
     @Override
     public void update(Order order) {
         Command command = buildCommand(order);
+        
+//        final Duration timed = Duration.ofSeconds(10);
+//        ExecutorService dotExe = Executors.newSingleThreadExecutor();
+//        
+//        final Future<String> fut = dotExe.submit(new Callable() {
+//        	@Override
+//        	public String call*( th)
+//        }
+        
+        final Runnable recComm = new Thread()
+        		{
+        			@Override
+        			public void run()
+        			{
+        				 controllerInterface.receiveCommand(command);
+        			}
+        		};
+        		
+        final Runnable upComm = new Thread()
+        		{
+        			@Override
+        			public void run()
+        			{
+        	            update(new ControllerResponse(order.getOrderID(), 1, -1, "No machines available."));
+
+        			}
+        		};
+        		
+        final ExecutorService exe = Executors.newSingleThreadExecutor();
+        final Future fut;
 
         if(command.getCoffeeMachineID() < 0 || command.getControllerID() < 0) {
-            update(new ControllerResponse(order.getOrderID(), 1, -1, "No machines available."));
+//            update(new ControllerResponse(order.getOrderID(), 1, -1, "No machines available."));
+        	
+        	fut = exe.submit(upComm);
+         
+        	
         } else {
-            controllerInterface.receiveCommand(command);
+//            controllerInterface.receiveCommand(command);
+            fut = exe.submit(recComm);
+
+        	
         }
+        
+        try {
+        	fut.get(5, TimeUnit.SECONDS);
+        }
+        catch (InterruptedException ie)
+        {
+        	
+        }
+        catch(ExecutionException ee)
+        {
+        	
+        }
+        catch (TimeoutException  te)
+        {
+        	
+        }
+      
+        
     }
 
     public Command buildCommand(Order order) {
