@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import BusinessLayer.Command;
 import DataLayer.CoffeeMachine;
 import DataLayer.ControllerInterface;
 import DataLayer.DatabaseConnection;
@@ -47,17 +48,32 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Starting interface");
-  //      ApplicationInterface applicationInterface = new ApplicationInterface();
         
-        ControllerInterface con = new ControllerInterface();
-        System.out.println(con.parseControllerResponse());
-
-  //      for (String order : ORDERS) {
+        testControllerInterface();
+        
+        
+ //       ApplicationInterface applicationInterface = new ApplicationInterface();
+ //       for (String order : ORDERS) {
  //           applicationInterface.placeOrder(order);
  //       }
         
 //        DatabaseConnection dbc=new DatabaseConnection();
 //        ArrayList<CoffeeMachine> coffeee= dbc.getCoffeeMachinesAtAddress("200 N. Main", 47803);
 //        System.out.println(coffeee.size());
+    }
+    
+    /*
+     * This method is meant to test the ControllerInterface. 
+     * - Makes sure that a File is created that should be sent to some external hardware
+     * - Makes sure that a File can be read from and create a Controller Response object
+     */
+    public static void testControllerInterface() {
+        ControllerInterface con = new ControllerInterface();
+        BusinessLayer.Option op = new BusinessLayer.Option("sugar", 3);
+        ArrayList<BusinessLayer.Option> ops = new ArrayList<BusinessLayer.Option>();
+        ops.add(op);
+        Command com = new Command(3, 4, 5, "Macchiato", "Automated", ops);
+        con.sendCommand(com);   
+        System.out.println("Finished");
     }
 }

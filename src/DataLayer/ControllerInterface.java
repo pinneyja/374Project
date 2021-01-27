@@ -79,40 +79,35 @@ public class ControllerInterface implements DataSubject {
 	/*
 	 * This method handles sending the JSON to a external process.
 	 */
-//	public String sendCommand(Command command) {
-//		JSONObject jsonCommand = new JSONObject().put(C_COMMAND_KEY, new JSONObject());
-//		JSONObject jsonCommandBody = jsonCommand.getJSONObject(C_COMMAND_KEY);
-//
-//		jsonCommandBody.put(C_CONTROLLER_ID_KEY, command.getControllerID());
-//		jsonCommandBody.put(C_COFFEE_MACHINE_ID_KEY, command.getCoffeeMachineID());
-//		jsonCommandBody.put(C_ORDER_ID_KEY, command.getOrderID());
-//		jsonCommandBody.put(C_DRINK_NAME_KEY, command.getDrinkName());
-//		jsonCommandBody.put(C_REQUEST_TYPE_KEY, command.getRequestType());
-//
-//		ArrayList<Option> options = command.getOptions();
-//		if (options != null) {
-//			jsonCommandBody.put(C_OPTIONS_KEY, new JSONArray());
-//			JSONArray jsonCommandBodyOptions = jsonCommandBody.getJSONArray(C_OPTIONS_KEY);
-//
-//			for (Option option : options) {
-//				JSONObject jsonOption = new JSONObject();
-//				jsonOption.put(C_OPTION_NAME_KEY, option.getName());
-//				jsonOption.put(C_OPTION_QUANTITY_KEY, option.getQuantity());
-//
-//				jsonCommandBodyOptions.put(jsonOption);
-//			}
-//		}
-//
-//		String jsonCommandString = jsonCommand.toString(4);
-//		System.out.println("Sending this command via hardware to the controller:\"\n" + jsonCommandString + "\n\"");
-//		try {
-//			sendBackResponse();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return jsonCommandString;
-//	}
+	public String sendCommand(Command command) {
+		JSONObject jsonCommand = new JSONObject().put(C_COMMAND_KEY, new JSONObject());
+		JSONObject jsonCommandBody = jsonCommand.getJSONObject(C_COMMAND_KEY);
+
+		jsonCommandBody.put(C_CONTROLLER_ID_KEY, command.getControllerID());
+		jsonCommandBody.put(C_COFFEE_MACHINE_ID_KEY, command.getCoffeeMachineID());
+		jsonCommandBody.put(C_ORDER_ID_KEY, command.getOrderID());
+		jsonCommandBody.put(C_DRINK_NAME_KEY, command.getDrinkName());
+		jsonCommandBody.put(C_REQUEST_TYPE_KEY, command.getRequestType());
+
+		ArrayList<Option> options = command.getOptions();
+		if (options != null) {
+			jsonCommandBody.put(C_OPTIONS_KEY, new JSONArray());
+			JSONArray jsonCommandBodyOptions = jsonCommandBody.getJSONArray(C_OPTIONS_KEY);
+
+			for (Option option : options) {
+				JSONObject jsonOption = new JSONObject();
+				jsonOption.put(C_OPTION_NAME_KEY, option.getName());
+				jsonOption.put(C_OPTION_QUANTITY_KEY, option.getQuantity());
+
+				jsonCommandBodyOptions.put(jsonOption);
+			}
+		}
+		String jsonCommandString = jsonCommand.toString(4);
+		Utilities.writeStringToLocalFile("Controller Test", jsonCommandString);
+		System.out.println("Sending this command via hardware to the controller:\"\n" + jsonCommandString + "\n\"");
+		sendBackResponse();
+		return jsonCommandString;
+	}
 
 	/*
 	 * Currently rigged to finish the process as if the external process sent back a
