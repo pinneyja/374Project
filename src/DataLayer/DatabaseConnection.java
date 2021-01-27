@@ -24,26 +24,11 @@ public class DatabaseConnection {
 public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode){
 			String str = Utilities.readStringFromLocalFile("db.json");
 			
-			ArrayList<CoffeeMachine> machines= parseCoffeeMachinesatAddress(str, address, zipCode);
+			ArrayList<CoffeeMachine> machines= parseCoffeeMachinesAtAddress(str, address, zipCode);
 	        return machines;
     }
-	public String createControllerResponseString(File controllerResponseFile) throws FileNotFoundException {
-		FileReader reader = new FileReader(controllerResponseFile);
-		StringBuilder sb = new StringBuilder();
 
-		try {
-			while (reader.read() != -1) {
-				sb.append(reader.read());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String jsonCRAsString = sb.toString();
-		return jsonCRAsString;
-	}
-
-    public ArrayList<CoffeeMachine> parseCoffeeMachinesatAddress(String str, String address, int zipCode){
+    public ArrayList<CoffeeMachine> parseCoffeeMachinesAtAddress(String str, String address, int zipCode){
         ArrayList<CoffeeMachine> controllerList= new ArrayList<CoffeeMachine>();
         
         JSONObject db = new JSONObject(str.trim()); //whole db jsonObject version of db string {"Table":{}, "Table2":{}, ...}
@@ -62,7 +47,7 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
         			JSONObject instanceOfController=controllerTable.getJSONObject(controllerNumber);
         
         			
-        			if(instanceOfCoffeeMaker.getString("Street_Address")==address && instanceOfCoffeeMaker.getInt("ZIP_code")==zipCode) {
+        			if(instanceOfCoffeeMaker.getString("Street_Address").equals(address) && instanceOfCoffeeMaker.getInt("ZIP_code")==(zipCode)) {
 				        CoffeeMachine currentMachine = new CoffeeMachine(instanceOfCoffeeMaker.getInt("MachineID"),
 				        												 instanceOfCoffeeMaker.getInt("ControllerID"), 
 				        												 instanceOfController.getString("Type"));
