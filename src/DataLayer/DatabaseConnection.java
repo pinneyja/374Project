@@ -43,13 +43,13 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
             		//gets current machine
         			JSONObject instanceOfCoffeeMaker = (JSONObject)coffeeMakerTable.get(key);//"Name":{...} aka what we need or instance of db row
         			//Gets current machine's controller
-        			String controllerNumber=String.valueOf(instanceOfCoffeeMaker.getInt("ControllerID")); 
+        			String controllerNumber=String.valueOf(instanceOfCoffeeMaker.getInt("Controller")); 
         			JSONObject instanceOfController=controllerTable.getJSONObject(controllerNumber);
         
         			
-        			if(instanceOfCoffeeMaker.getString("Street_Address").equals(address) && instanceOfCoffeeMaker.getInt("ZIP_code")==(zipCode)) {
+        			if(instanceOfController.getString("Street_Address").equals(address) && instanceOfController.getInt("ZIP_code")==(zipCode)) {
 				        CoffeeMachine currentMachine = new CoffeeMachine(instanceOfCoffeeMaker.getInt("MachineID"),
-				        												 instanceOfCoffeeMaker.getInt("ControllerID"), 
+				        												 instanceOfCoffeeMaker.getInt("Controller"), 
 				        												 instanceOfController.getString("Type"));
 	        			controllerList.add(currentMachine);
         			}

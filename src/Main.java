@@ -1,4 +1,8 @@
+import java.util.ArrayList;
+
+import DataLayer.CoffeeMachine;
 import DataLayer.ControllerInterface;
+import DataLayer.DatabaseConnection;
 import ServiceLayer.ApplicationInterface;
 
 public class Main {
@@ -51,5 +55,9 @@ public class Main {
   //      for (String order : ORDERS) {
  //           applicationInterface.placeOrder(order);
  //       }
+        
+//        DatabaseConnection dbc=new DatabaseConnection();
+//        ArrayList<CoffeeMachine> coffeee= dbc.getCoffeeMachinesAtAddress("200 N. Main", 47803);
+//        System.out.println(coffeee.size());
     }
 }
