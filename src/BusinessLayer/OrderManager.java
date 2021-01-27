@@ -1,5 +1,6 @@
 package BusinessLayer;
 
+import DataLayer.CoffeeMachine;
 import DataLayer.ControllerInterface;
 import DataLayer.ControllerResponse;
 import DataLayer.DatabaseConnection;
@@ -7,6 +8,7 @@ import ServiceLayer.ApplicationInterface;
 import ServiceLayer.Order;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -119,7 +121,17 @@ public class OrderManager implements DataObserver, ServiceObserver{
 
     public Command buildCommand(Order order) {
         // TODO implement logic to determine which coffee maker should build the order, then use it to build the order
-        return null;
+        
+    	ArrayList<CoffeeMachine> machines = this.databaseConnection.getCoffeeMachinesAtAddress(order.getStreetAddress(), order.getZipCode());
+    	
+    	CoffeeMachine primaryMach = machines.get(0);
+    	
+    	
+    	//add more logic to preempt this addition to the hash map
+    	this.orderIDtoCoffeeMachineID.put(order.getOrderID(), primaryMach.getMachineId());
+    	
+    	//needs after logic for returning
+    	return null;
     }
 
     public AppResponse buildAppResponse(ControllerResponse controllerResponse) {
