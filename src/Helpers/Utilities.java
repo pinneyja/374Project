@@ -22,7 +22,7 @@ public class Utilities {
     }
 
     private static String getBasePath() {
-        return Paths.get("").toAbsolutePath().getParent().toString();
+        return Paths.get("").toAbsolutePath().toString();
     }
 
     private static File stringPathToFile(String path) {
