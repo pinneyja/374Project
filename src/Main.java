@@ -1,3 +1,4 @@
+import DataLayer.ControllerInterface;
 import ServiceLayer.ApplicationInterface;
 
 public class Main {
@@ -42,10 +43,13 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Starting interface");
-        ApplicationInterface applicationInterface = new ApplicationInterface();
+  //      ApplicationInterface applicationInterface = new ApplicationInterface();
+        
+        ControllerInterface con = new ControllerInterface();
+        System.out.println(con.createControllerResponseString());
 
-        for (String order : ORDERS) {
-            applicationInterface.placeOrder(order);
-        }
+  //      for (String order : ORDERS) {
+ //           applicationInterface.placeOrder(order);
+ //       }
     }
 }
