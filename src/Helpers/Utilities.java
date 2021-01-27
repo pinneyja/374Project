@@ -1,6 +1,5 @@
 package Helpers;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
 public class Utilities {
@@ -10,7 +9,7 @@ public class Utilities {
     }
 
     public static void writeStringToLocalFile(String localResourceFileName, String fileData) {
-        String dir = Paths.get("").toAbsolutePath().getParent().toString();
+        String dir = getBasePath();
         String localPath = dir + "\\resources\\out\\" + localResourceFileName;
 
         try {
@@ -22,15 +21,15 @@ public class Utilities {
         }
     }
 
-    private static File stringPathToFile(String path) {
-        String filePath = null;
-        try {
-            filePath = Paths.get(Utilities.class.getResource(path).toURI()).toString();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    private static String getBasePath() {
+        return Paths.get("").toAbsolutePath().getParent().toString();
+    }
 
-        return (filePath == null) ? null : new File(filePath);
+    private static File stringPathToFile(String path) {
+        String dir = getBasePath();
+        String localPath = dir + "\\resources\\" + path;
+
+        return new File(localPath);
     }
 
     private static String fileToString(File file) {
