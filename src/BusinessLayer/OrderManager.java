@@ -40,6 +40,7 @@ public class OrderManager implements DataObserver, ServiceObserver{
         orderIDtoCoffeeMachineID = new HashMap<>();
 
         statusToMessage = new HashMap<>();
+        statusToMessage.put(-1, "There are no available coffee machines to place your order.");
         statusToMessage.put(0, "Your coffee has been prepared with your desired options.");
         statusToMessage.put(1, "Your coffee order has been cancelled.");
     }
@@ -54,8 +55,8 @@ public class OrderManager implements DataObserver, ServiceObserver{
     }
 
     @Override
-    public void update(final Order order) {
-        final Command command = buildCommand(order);
+    public void update(Order order) {
+        Command command = buildCommand(order);
         
 //        final Duration timed = Duration.ofSeconds(10);
 //        ExecutorService dotExe = Executors.newSingleThreadExecutor();
@@ -70,10 +71,10 @@ public class OrderManager implements DataObserver, ServiceObserver{
         			@Override
         			public void run()
         			{
-        				 controllerInterface.receiveCommand(command);
+        				 controllerInterface.sendCommand(command);
         			}
         		};
-        		
+
         final Runnable upComm = new Thread()
         		{
         			@Override
@@ -85,38 +86,18 @@ public class OrderManager implements DataObserver, ServiceObserver{
         		};
         		
         final ExecutorService exe = Executors.newSingleThreadExecutor();
-        final Future fut;
+        final Future fut = (command.getCoffeeMachineID() < 0 || command.getControllerID() < 0) ? exe.submit(upComm) : exe.submit(recComm);
 
-        if(command.getCoffeeMachineID() < 0 || command.getControllerID() < 0) {
-//            update(new ControllerResponse(order.getOrderID(), 1, -1, "No machines available."));
-        	
-        	fut = exe.submit(upComm);
-         
-        	
-        } else {
-//            controllerInterface.receiveCommand(command);
-            fut = exe.submit(recComm);
-
-        	
-        }
         
         try {
-        	fut.get(5, TimeUnit.SECONDS);
+        	fut.get(5, TimeUnit.MINUTES);
         }
-        catch (InterruptedException ie)
+        catch (InterruptedException | ExecutionException | TimeoutException ie)
         {
-        	
+        	ie.printStackTrace();
         }
-        catch(ExecutionException ee)
-        {
-        	
-        }
-        catch (TimeoutException  te)
-        {
-        	
-        }
-      
-        
+
+
     }
 
     public Command buildCommand(Order order) {
@@ -124,38 +105,39 @@ public class OrderManager implements DataObserver, ServiceObserver{
         
     	ArrayList<CoffeeMachine> machines = this.databaseConnection.getCoffeeMachinesAtAddress(order.getStreetAddress(), order.getZipCode());
     	
-    	CoffeeMachine primaryMach = new CoffeeMachine(0, 0, null);
-    	
+    	CoffeeMachine primaryMach = new CoffeeMachine(0, 0, "Simple");
+    	boolean orderIsSimple = order.getOptions() == null || order.getOptions().size() == 0;
+        ArrayList<CoffeeMachine> machinesToRemove = new ArrayList<>();
+
     	for (CoffeeMachine c : machines)
     	{
-    		if (this.databaseConnection.getDrinksForCoffeeMachine(c.getMachineId()).contains(order.getDrinkName()))
+    		if (!this.databaseConnection.getDrinksForCoffeeMachine(c.getMachineId()).contains(order.getDrinkName()) ||
+                !orderIsSimple && c.getTypeOfMachine().equals("Simple"))
     		{
-    			if(this.databaseConnection.getOptionsForCoffeeMachine(c.getMachineId()).containsAll(order.getOptions()))
-    			{
-    		    	 primaryMach = c;
-    		    	 break;
-
-    			}
+    		    machinesToRemove.add(c);
     		}
-    			
     	}
     	
-    	
-    	
-    	
-    	
-    	
+    	machines.removeAll(machinesToRemove);
+
+        if(machines.size() > 0) {
+            primaryMach = machines.get(0);
+        }
     	
     	
     	//add more logic to preempt this addition to the hash map
     	this.orderIDtoCoffeeMachineID.put(order.getOrderID(), primaryMach.getMachineId());
     	
     	//needs after logic for returning
-    	
-    	
-    	Command comm = new Command(primaryMach.getControllerID(), primaryMach.getMachineId(),order.getOrderID(),order.getDrinkName(), "request", order.getOptions());
-    	
-    	return comm;
+    	Command command;
+
+    	if(primaryMach.getTypeOfMachine().equals("Simple")) {
+    	    command = simpleCoffeeMaker.buildCommand(order, primaryMach);
+        } else {
+    	    command = advancedCoffeeMaker.buildCommand(order, primaryMach);
+        }
+
+    	return command;
     }
 
     public AppResponse buildAppResponse(ControllerResponse controllerResponse) {

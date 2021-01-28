@@ -15,6 +15,7 @@ public class Utilities {
         try {
             FileWriter fileWriter = new FileWriter(localPath);
             fileWriter.write(fileData);
+            fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

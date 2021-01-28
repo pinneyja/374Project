@@ -38,18 +38,10 @@ public class ControllerInterface implements DataSubject {
 	HashSet<DataObserver> dataObservers;
 	ArrayList<ControllerResponse> responses;
 //	ControllerResponse controllerResponse;
-	Command command;
 
 	public ControllerInterface() {
 		dataObservers = new HashSet<>();
 		responses = new ArrayList<ControllerResponse>();
-	}
-
-	/*
-	 * Receives the command that was sent from a CoffeeMaker.
-	 */
-	public void receiveCommand(Command c) {
-		this.command = c;
 	}
 	
     public void readResponsesFromFile() {
@@ -124,8 +116,10 @@ public class ControllerInterface implements DataSubject {
 				jsonCommandBodyOptions.put(jsonOption);
 			}
 		}
-		String jsonCommandString = jsonCommand.toString(4);
-		Utilities.writeStringToLocalFile("Controller Test", jsonCommandString);
+		String jsonCommandString = jsonCommand.toString(4) + "\n";
+		String currentFile = Utilities.readStringFromLocalFile("out/Command_stream.json");
+		currentFile += jsonCommandString;
+		Utilities.writeStringToLocalFile("Command_stream.json", currentFile);
 		System.out.println("Sending this command via hardware to the controller:\"\n" + jsonCommandString + "\n\"");
 		sendBackResponse();
 		return jsonCommandString;

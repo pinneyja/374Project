@@ -50,11 +50,12 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Starting interface");
         
-        testControllerInterface();
-        
+//        testControllerInterface();
+//
         Utilities.writeStringToLocalFile("App-response.json", ""); // this clears out the App-response.json file for a new run
+        Utilities.writeStringToLocalFile("Command_stream.json", "");
         ApplicationInterface applicationInterface = new ApplicationInterface();
-//        applicationInterface.readOrdersFromFile("order-input.json"); // TODO: uncomment this line to run with file input
+        applicationInterface.readOrdersFromFile("order-input.json"); // TODO: uncomment this line to run with file input
 
 //        DatabaseConnection dbc=new DatabaseConnection();
 //        ArrayList<CoffeeMachine> coffeee= dbc.getCoffeeMachinesAtAddress("200 N. Main", 47803);

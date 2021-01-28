@@ -77,26 +77,4 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
 
         return drinkTypes;
     }
-
-    public ArrayList<String> getOptionsForCoffeeMachine(int coffeeMachineID) {
-        String dbString = Utilities.readStringFromLocalFile("db.json");
-        JSONObject dbJSON = new JSONObject(dbString);
-        JSONObject drinkTable = dbJSON.getJSONObject("Condiment");
-        JSONObject drinkEntry;
-        try {
-            drinkEntry = drinkTable.getJSONObject(Integer.toString(coffeeMachineID));
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
-        JSONArray drinkArr = drinkEntry.getJSONArray("Name");
-        ArrayList<String> drinkTypes = new ArrayList<>();
-        for(int i = 0; i < drinkArr.length(); i ++) {
-            drinkTypes.add(drinkArr.getString(i));
-        }
-
-        return drinkTypes;
-    }
-
-
-
 }
