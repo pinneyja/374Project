@@ -1,3 +1,4 @@
 .idea
 bin
-out
+App-response.json
+Command_stream.json
