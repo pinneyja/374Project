@@ -37,7 +37,7 @@ public class ControllerInterface implements DataSubject {
 
 	HashSet<DataObserver> dataObservers;
 	ArrayList<ControllerResponse> responses;
-	int numCommands = 3;
+	int numCommands = 2;
 //	ControllerResponse controllerResponse;
 
 	public ControllerInterface() {

@@ -105,7 +105,7 @@ public class OrderManager implements DataObserver, ServiceObserver{
         
     	ArrayList<CoffeeMachine> machines = this.databaseConnection.getCoffeeMachinesAtAddress(order.getStreetAddress(), order.getZipCode());
     	
-    	CoffeeMachine primaryMach = new CoffeeMachine(0, 0, "Simple");
+    	CoffeeMachine primaryMach = new CoffeeMachine(-1, -1, "Simple");
     	boolean orderIsSimple = order.getOptions() == null || order.getOptions().size() == 0;
         ArrayList<CoffeeMachine> machinesToRemove = new ArrayList<>();
 
