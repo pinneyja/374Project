@@ -1,6 +1,7 @@
 package ServiceLayer;
 
 import BusinessLayer.*;
+import Helpers.Utilities;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +38,15 @@ public class ApplicationInterface implements ServiceSubject {
         orders = new HashMap<>();
 
         new OrderManager(this);
+    }
+
+    public void readOrdersFromFile(String filename) {
+        String fileData = Utilities.readStringFromLocalFile(filename);
+        JSONArray jsonOrders = new JSONArray(fileData);
+        for(int i = 0; i < jsonOrders.length(); i ++) {
+            JSONObject jsonOrder = jsonOrders.getJSONObject(i);
+            placeOrder(jsonOrder.toString());
+        }
     }
 
     public void placeOrder(String jsonOrder) {
@@ -80,7 +90,7 @@ public class ApplicationInterface implements ServiceSubject {
         return new Order(orderID, streetAddress, zipCode, drinkName, orderOptions);
     }
 
-    public String returnAppResponse(AppResponse appResponse) {
+    public void returnAppResponse(AppResponse appResponse) {
         JSONObject jsonAppResponse = new JSONObject().put(AR_USER_RESPONSE_KEY, new JSONObject());
         JSONObject jsonUserResponse = jsonAppResponse.getJSONObject(AR_USER_RESPONSE_KEY);
 
@@ -94,10 +104,11 @@ public class ApplicationInterface implements ServiceSubject {
             jsonUserResponse.put(AR_ERROR_MESSAGE_KEY, errorMessage);
         }
 
-        String output = jsonAppResponse.toString(4);
-        System.out.println("ApplicationInterface responded with: \"\n" + output + "\n\"");
-
-        return output;
+        String output = jsonAppResponse.toString(4) + "\n";
+        String currentAppResponse = Utilities.readStringFromLocalFile("out/App-response.json");
+        currentAppResponse += output;
+        Utilities.writeStringToLocalFile("App-response.json", currentAppResponse);
+//        System.out.println("ApplicationInterface responded with: \"\n" + output + "\n\"");
     }
 
     @Override

@@ -1,0 +1,36 @@
+[
+{
+  "order": { "orderID": 1,
+            "address": {
+                  "street": "200 N. Main",
+                  "ZIP": 47803
+            },
+            "drink": "Americano",
+            "condiments": [
+                {"name": "Sugar", "qty": 1},
+                {"name": "Cream", "qty": 2}
+            ]
+            }
+},
+{
+  "order": { "orderID": 2,
+            "address": {
+                  "street": "200 N. Main",
+                  "ZIP": 47803
+            },
+            "drink": "Expresso"
+            }
+},
+{
+  "order": { "orderID": 3,
+            "address": {
+                  "street": "200 N. Main",
+                  "ZIP": 47803
+            },
+            "drink": "Pumpkin Spice",
+            "condiments": [
+                {"name": "Cream", "qty": 1}
+            ]
+            }
+}
+]

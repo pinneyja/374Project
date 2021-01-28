@@ -4,6 +4,7 @@ import BusinessLayer.Command;
 import DataLayer.CoffeeMachine;
 import DataLayer.ControllerInterface;
 import DataLayer.DatabaseConnection;
+import Helpers.Utilities;
 import ServiceLayer.ApplicationInterface;
 
 public class Main {
@@ -51,12 +52,10 @@ public class Main {
         
         testControllerInterface();
         
-        
- //       ApplicationInterface applicationInterface = new ApplicationInterface();
- //       for (String order : ORDERS) {
- //           applicationInterface.placeOrder(order);
- //       }
-        
+        Utilities.writeStringToLocalFile("App-response.json", ""); // this clears out the App-response.json file for a new run
+        ApplicationInterface applicationInterface = new ApplicationInterface();
+//        applicationInterface.readOrdersFromFile("order-input.json"); // TODO: uncomment this line to run with file input
+
 //        DatabaseConnection dbc=new DatabaseConnection();
 //        ArrayList<CoffeeMachine> coffeee= dbc.getCoffeeMachinesAtAddress("200 N. Main", 47803);
 //        System.out.println(coffeee.size());
