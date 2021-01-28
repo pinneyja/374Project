@@ -58,4 +58,23 @@ public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int z
         
         return controllerList;
     }
+
+    public ArrayList<String> getDrinksForCoffeeMachine(int coffeeMachineID) {
+        String dbString = Utilities.readStringFromLocalFile("db.json");
+        JSONObject dbJSON = new JSONObject(dbString);
+        JSONObject drinkTable = dbJSON.getJSONObject("CoffeemakerDrink");
+        JSONObject drinkEntry;
+        try {
+            drinkEntry = drinkTable.getJSONObject(Integer.toString(coffeeMachineID));
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+        JSONArray drinkArr = drinkEntry.getJSONArray("DrinkType");
+        ArrayList<String> drinkTypes = new ArrayList<>();
+        for(int i = 0; i < drinkArr.length(); i ++) {
+            drinkTypes.add(drinkArr.getString(i));
+        }
+
+        return drinkTypes;
+    }
 }
