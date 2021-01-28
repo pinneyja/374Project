@@ -37,6 +37,7 @@ public class ControllerInterface implements DataSubject {
 
 	HashSet<DataObserver> dataObservers;
 	ArrayList<ControllerResponse> responses;
+	int numCommands = 3;
 //	ControllerResponse controllerResponse;
 
 	public ControllerInterface() {
@@ -121,7 +122,10 @@ public class ControllerInterface implements DataSubject {
 		currentFile += jsonCommandString;
 		Utilities.writeStringToLocalFile("Command_stream.json", currentFile);
 		System.out.println("Sending this command via hardware to the controller:\"\n" + jsonCommandString + "\n\"");
-		sendBackResponse();
+		numCommands --;
+		if(numCommands == 0) {
+			sendBackResponse();
+		}
 		return jsonCommandString;
 	}
 
