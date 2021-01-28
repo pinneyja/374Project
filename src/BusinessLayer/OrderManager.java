@@ -124,14 +124,38 @@ public class OrderManager implements DataObserver, ServiceObserver{
         
     	ArrayList<CoffeeMachine> machines = this.databaseConnection.getCoffeeMachinesAtAddress(order.getStreetAddress(), order.getZipCode());
     	
-    	CoffeeMachine primaryMach = machines.get(0);
+    	CoffeeMachine primaryMach = new CoffeeMachine(0, 0, null);
+    	
+    	for (CoffeeMachine c : machines)
+    	{
+    		if (this.databaseConnection.getDrinksForCoffeeMachine(c.getMachineId()).contains(order.getDrinkName()))
+    		{
+    			if(this.databaseConnection.getOptionsForCoffeeMachine(c.getMachineId()).containsAll(order.getOptions()))
+    			{
+    		    	 primaryMach = c;
+    		    	 break;
+
+    			}
+    		}
+    			
+    	}
+    	
+    	
+    	
+    	
+    	
+    	
     	
     	
     	//add more logic to preempt this addition to the hash map
     	this.orderIDtoCoffeeMachineID.put(order.getOrderID(), primaryMach.getMachineId());
     	
     	//needs after logic for returning
-    	return null;
+    	
+    	
+    	Command comm = new Command(primaryMach.getControllerID(), primaryMach.getMachineId(),order.getOrderID(),order.getDrinkName(), "request", order.getOptions());
+    	
+    	return comm;
     }
 
     public AppResponse buildAppResponse(ControllerResponse controllerResponse) {
