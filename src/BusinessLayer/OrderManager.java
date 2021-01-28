@@ -43,6 +43,7 @@ public class OrderManager implements DataObserver, ServiceObserver{
         statusToMessage.put(-1, "There are no available coffee machines to place your order.");
         statusToMessage.put(0, "Your coffee has been prepared with your desired options.");
         statusToMessage.put(1, "Your coffee order has been cancelled.");
+        statusToMessage.put(2, "Your order timed out.");
     }
 
     @Override
@@ -90,11 +91,12 @@ public class OrderManager implements DataObserver, ServiceObserver{
 
         
         try {
-        	fut.get(5, TimeUnit.MINUTES);
+        	fut.get(10, TimeUnit.MINUTES);
         }
         catch (InterruptedException | ExecutionException | TimeoutException ie)
         {
-        	ie.printStackTrace();
+        	update(new ControllerResponse(order.getOrderID(), 2, 5, "Order Timeout"));
+        	orderIDtoCoffeeMachineID.remove(order.getOrderID());
         }
 
 
@@ -147,6 +149,7 @@ public class OrderManager implements DataObserver, ServiceObserver{
             int coffeeMachineID = orderIDtoCoffeeMachineID.get(orderID);
             String errorDescription = controllerResponse.getErrorDescription();
             String statusMessage = statusToMessage.getOrDefault(status, "Unknown status.");
+            orderIDtoCoffeeMachineID.remove(orderID);
 
             return new AppResponse(orderID, coffeeMachineID, status, statusMessage, errorDescription);
         } else {
