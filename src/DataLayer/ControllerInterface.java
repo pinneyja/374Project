@@ -9,8 +9,10 @@ import java.util.HashSet;
 
 import BusinessLayer.*;
 import Helpers.Utilities;
+import ServiceLayer.Order;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ControllerInterface implements DataSubject {
@@ -34,11 +36,13 @@ public class ControllerInterface implements DataSubject {
 	private static final String C_OPTION_QUANTITY_KEY = "qty";
 
 	HashSet<DataObserver> dataObservers;
-	ControllerResponse controllerResponse;
+	ArrayList<ControllerResponse> responses;
+//	ControllerResponse controllerResponse;
 	Command command;
 
 	public ControllerInterface() {
 		dataObservers = new HashSet<>();
+		responses = new ArrayList<ControllerResponse>();
 	}
 
 	/*
@@ -47,6 +51,26 @@ public class ControllerInterface implements DataSubject {
 	public void receiveCommand(Command c) {
 		this.command = c;
 	}
+	
+    public void readResponsesFromFile() {
+        String fileData = Utilities.readStringFromLocalFile("controller-response.json");
+        JSONArray jsonResponses = new JSONArray(fileData);
+        for(int i = 0; i < jsonResponses.length(); i ++) {
+            JSONObject jsonResponse = jsonResponses.getJSONObject(i);
+            saveResponses(jsonResponse.toString());
+        }
+    }
+
+    public void saveResponses(String jsonOrder) {
+        try {
+            ControllerResponse newResponse = parseControllerResponse(jsonOrder);
+            responses.add(newResponse);
+
+        } catch (JSONException exception) {
+            System.out.println("Oops! Something was formatted incorrectly in the order:\"\n" + jsonOrder + "\n\". " +
+                    "It caused the following error: \"" + exception.getMessage() + "\" Please try again!");
+        }
+    }
 
 	/*
 	 * This method will be called from (?). It is sent a File that gets converted to
@@ -55,10 +79,8 @@ public class ControllerInterface implements DataSubject {
 	 * into a ControllerResponse Object. This object will be passed back to the
 	 * correct CoffeeMaker
 	 */
-	public ControllerResponse parseControllerResponse() {
+	public ControllerResponse parseControllerResponse(String jsonCRAsString) {
 		
-		String jsonCRAsString = Utilities.readStringFromLocalFile("Controller Response");
-
 		JSONObject jsonDrinkResponse = new JSONObject(jsonCRAsString).getJSONObject(CR_DRINK_KEY);
 		int orderID = jsonDrinkResponse.getInt(CR_ORDER_ID_KEY);
 		int status = jsonDrinkResponse.getInt(CR_STATUS_KEY);
@@ -115,8 +137,10 @@ public class ControllerInterface implements DataSubject {
 	 */
 	public void sendBackResponse(){
 		// Send command
-		ControllerResponse response = parseControllerResponse();
-		notifyObservers(response);
+		readResponsesFromFile();
+		for (int i = 0; i < this.responses.size(); i++) {
+			notifyObservers(this.responses.get(i));
+		}
 	}
 
 	/*

@@ -1,9 +1,10 @@
+[
 {
   "drinkresponse": {
     "orderID": 1,
     "status": 0
   }
-}
+},
 {
   "drinkresponse": {
     "orderID": 2,
@@ -11,7 +12,7 @@
     "errordesc": "Out of milk, drink cancelled",
     "errorcode": 2
   }
-}
+},
 {
   "drinkresponse": {
     "orderID": 3,
@@ -20,3 +21,4 @@
     "errorcode": 26
   }
 }
+]
