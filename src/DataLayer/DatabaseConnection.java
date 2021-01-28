@@ -1,78 +1,85 @@
 package DataLayer;
 
 import Helpers.Utilities;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-import BusinessLayer.AppResponse;
-import BusinessLayer.CoffeeMaker;
-import BusinessLayer.Option;
 import org.json.JSONArray;
-import org.json.JSONObject; 
+import org.json.JSONObject;
 
 public class DatabaseConnection {
- 
+
+    // File Names
+    private static final String DB_FILE_NAME = "db.json";
+
+    // DB Keys
+    private static final String KEY_COFFEE_MAKER_TABLE = "CoffeeMaker";
+    private static final String KEY_CONTROLLER_TABLE = "Controller";
+    private static final String KEY_COFFEE_MAKER_DRINK_TABLE = "CoffeemakerDrink";
+    private static final String KEY_COFFEE_MAKER_CONTROLLER = "Controller";
+    private static final String KEY_CONTROLLER_STREET = "Street_Address";
+    private static final String KEY_CONTROLLER_ZIP_CODE = "ZIP_code";
+    private static final String KEY_CONTROLLER_TYPE = "Type";
+    private static final String KEY_COFFEE_MAKER_ID = "MachineID";
+    private static final String KEY_COFFEE_MAKER_DRINK_DRINKS = "DrinkType";
+
+    private JSONObject jsonDatabase;
+
     public DatabaseConnection() {
+        jsonDatabase = new JSONObject(Utilities.readStringFromLocalFile(DB_FILE_NAME));
     }
 
-public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode){
-			String str = Utilities.readStringFromLocalFile("db.json");
-			
-			ArrayList<CoffeeMachine> machines= parseCoffeeMachinesAtAddress(str, address, zipCode);
-	        return machines;
+    public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode) {
+        return parseCoffeeMachinesAtAddress(address, zipCode);
     }
 
-    public ArrayList<CoffeeMachine> parseCoffeeMachinesAtAddress(String str, String address, int zipCode){
-        ArrayList<CoffeeMachine> controllerList= new ArrayList<CoffeeMachine>();
-        
-        JSONObject db = new JSONObject(str.trim()); //whole db jsonObject version of db string {"Table":{}, "Table2":{}, ...}
-        JSONObject coffeeMakerTable = db.getJSONObject("CoffeeMaker"); 
-        JSONObject controllerTable = db.getJSONObject("Controller"); 
+    public ArrayList<CoffeeMachine> parseCoffeeMachinesAtAddress(String address, int zipCode) {
+        ArrayList<CoffeeMachine> coffeeMachinesAtAddress = new ArrayList<>();
+
+        JSONObject coffeeMakerTable = jsonDatabase.getJSONObject(KEY_COFFEE_MAKER_TABLE);
+        JSONObject controllerTable = jsonDatabase.getJSONObject(KEY_CONTROLLER_TABLE);
 
         Iterator<String> keys = coffeeMakerTable.keys();
 
-        while(keys.hasNext()) {
+        while (keys.hasNext()) {
             String key = keys.next();
-            if (coffeeMakerTable.get(key) instanceof JSONObject) {
-            		//gets current machine
-        			JSONObject instanceOfCoffeeMaker = (JSONObject)coffeeMakerTable.get(key);//"Name":{...} aka what we need or instance of db row
-        			//Gets current machine's controller
-        			String controllerNumber=String.valueOf(instanceOfCoffeeMaker.getInt("Controller")); 
-        			JSONObject instanceOfController=controllerTable.getJSONObject(controllerNumber);
-        
-        			
-        			if(instanceOfController.getString("Street_Address").equals(address) && instanceOfController.getInt("ZIP_code")==(zipCode)) {
-				        CoffeeMachine currentMachine = new CoffeeMachine(instanceOfCoffeeMaker.getInt("MachineID"),
-				        												 instanceOfCoffeeMaker.getInt("Controller"), 
-				        												 instanceOfController.getString("Type"));
-	        			controllerList.add(currentMachine);
-        			}
+
+            JSONObject jsonCoffeeMaker = (JSONObject) coffeeMakerTable.get(key);
+            String controllerNumber = Integer.toString(jsonCoffeeMaker.getInt(KEY_COFFEE_MAKER_CONTROLLER));
+            JSONObject jsonController = controllerTable.getJSONObject(controllerNumber);
+
+            boolean jsonControllerMatchesAddress = jsonController.getString(KEY_CONTROLLER_STREET).equals(address) &&
+                    jsonController.getInt(KEY_CONTROLLER_ZIP_CODE) == (zipCode);
+
+            if (jsonControllerMatchesAddress) {
+                int coffeeMakerID = jsonCoffeeMaker.getInt(KEY_COFFEE_MAKER_ID);
+                int coffeeMakerControllerID = jsonCoffeeMaker.getInt(KEY_COFFEE_MAKER_CONTROLLER);
+                String controllerType = jsonController.getString(KEY_CONTROLLER_TYPE);
+
+                CoffeeMachine currentMachine = new CoffeeMachine(coffeeMakerID, coffeeMakerControllerID, controllerType);
+                coffeeMachinesAtAddress.add(currentMachine);
             }
         }
-        
-        return controllerList;
+
+        return coffeeMachinesAtAddress;
     }
 
     public ArrayList<String> getDrinksForCoffeeMachine(int coffeeMachineID) {
-        String dbString = Utilities.readStringFromLocalFile("db.json");
-        JSONObject dbJSON = new JSONObject(dbString);
-        JSONObject drinkTable = dbJSON.getJSONObject("CoffeemakerDrink");
-        JSONObject drinkEntry;
+        JSONObject drinkTable = jsonDatabase.getJSONObject(KEY_COFFEE_MAKER_DRINK_TABLE);
+        JSONObject jsonCoffeeMakerDrinks;
+
         try {
-            drinkEntry = drinkTable.getJSONObject(Integer.toString(coffeeMachineID));
+            jsonCoffeeMakerDrinks = drinkTable.getJSONObject(Integer.toString(coffeeMachineID));
         } catch (Exception e) {
             return new ArrayList<>();
         }
-        JSONArray drinkArr = drinkEntry.getJSONArray("DrinkType");
+
+        JSONArray coffeeMakerDrinksArray = jsonCoffeeMakerDrinks.getJSONArray(KEY_COFFEE_MAKER_DRINK_DRINKS);
         ArrayList<String> drinkTypes = new ArrayList<>();
-        for(int i = 0; i < drinkArr.length(); i ++) {
-            drinkTypes.add(drinkArr.getString(i));
+
+        for (int i = 0; i < coffeeMakerDrinksArray.length(); i++) {
+            drinkTypes.add(coffeeMakerDrinksArray.getString(i));
         }
 
         return drinkTypes;

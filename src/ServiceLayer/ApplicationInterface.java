@@ -30,6 +30,11 @@ public class ApplicationInterface implements ServiceSubject {
     private static final String AR_STATUS_MESSAGE_KEY = "status-message";
     private static final String AR_ERROR_MESSAGE_KEY = "error-message";
 
+    // File Names
+    private static final String OUT_FOLDER = "out/";
+    private static final String APP_RESPONSE_FILE = "App-response.json";
+    private static final String APP_RESPONSE_IN_OUT_FOLDER = OUT_FOLDER + APP_RESPONSE_FILE;
+
     HashSet<ServiceObserver> observers;
     HashMap<Integer, Order> orders;
 
@@ -43,7 +48,7 @@ public class ApplicationInterface implements ServiceSubject {
     public void readOrdersFromFile(String filename) {
         String fileData = Utilities.readStringFromLocalFile(filename);
         JSONArray jsonOrders = new JSONArray(fileData);
-        for(int i = 0; i < jsonOrders.length(); i ++) {
+        for (int i = 0; i < jsonOrders.length(); i++) {
             JSONObject jsonOrder = jsonOrders.getJSONObject(i);
             placeOrder(jsonOrder.toString());
         }
@@ -77,7 +82,7 @@ public class ApplicationInterface implements ServiceSubject {
         try {
             condiments = jsonOrder.getJSONArray(O_CONDIMENTS_KEY);
             orderOptions = new ArrayList<>();
-            for(int i = 0; i < condiments.length(); i ++) {
+            for (int i = 0; i < condiments.length(); i++) {
                 JSONObject jsonOption = condiments.getJSONObject(i);
                 String optionName = jsonOption.getString(O_CONDIMENT_NAME_KEY);
                 int optionQuantity = jsonOption.getInt(O_CONDIMENT_QTY_KEY);
@@ -85,7 +90,8 @@ public class ApplicationInterface implements ServiceSubject {
                 Option option = new Option(optionName, optionQuantity);
                 orderOptions.add(option);
             }
-        } catch (JSONException ignored) {}
+        } catch (JSONException ignored) {
+        }
 
         return new Order(orderID, streetAddress, zipCode, drinkName, orderOptions);
     }
@@ -100,15 +106,14 @@ public class ApplicationInterface implements ServiceSubject {
         jsonUserResponse.put(AR_STATUS_MESSAGE_KEY, appResponse.getStatusMessage());
 
         String errorMessage = appResponse.getErrorMessage();
-        if(errorMessage != null && errorMessage.length() > 0) {
+        if (errorMessage != null && errorMessage.length() > 0) {
             jsonUserResponse.put(AR_ERROR_MESSAGE_KEY, errorMessage);
         }
 
         String output = jsonAppResponse.toString(4) + "\n";
-        String currentAppResponse = Utilities.readStringFromLocalFile("out/App-response.json");
+        String currentAppResponse = Utilities.readStringFromLocalFile(APP_RESPONSE_IN_OUT_FOLDER);
         currentAppResponse += output;
-        Utilities.writeStringToLocalFile("App-response.json", currentAppResponse);
-//        System.out.println("ApplicationInterface responded with: \"\n" + output + "\n\"");
+        Utilities.writeStringToLocalFile(APP_RESPONSE_FILE, currentAppResponse);
     }
 
     @Override
@@ -118,14 +123,14 @@ public class ApplicationInterface implements ServiceSubject {
 
     @Override
     public void removeObserver(ServiceObserver serviceObserver) {
-        if(observers.contains(serviceObserver)) {
+        if (observers.contains(serviceObserver)) {
             observers.add(serviceObserver);
         }
     }
 
     @Override
     public void notifyObservers(Order order) {
-        for(ServiceObserver serviceObserver : observers) {
+        for (ServiceObserver serviceObserver : observers) {
             serviceObserver.update(order);
         }
     }

@@ -7,7 +7,6 @@ import DataLayer.DatabaseConnection;
 import ServiceLayer.ApplicationInterface;
 import ServiceLayer.Order;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -17,7 +16,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class OrderManager implements DataObserver, ServiceObserver{
+public class OrderManager implements DataObserver, ServiceObserver {
     DatabaseConnection databaseConnection;
     CoffeeMaker simpleCoffeeMaker;
     CoffeeMaker advancedCoffeeMaker;
@@ -50,7 +49,7 @@ public class OrderManager implements DataObserver, ServiceObserver{
     public void update(ControllerResponse controllerResponse) {
         AppResponse appResponse = buildAppResponse(controllerResponse);
 
-        if(appResponse != null) {
+        if (appResponse != null) {
             applicationInterface.returnAppResponse(appResponse);
         }
     }
@@ -58,108 +57,82 @@ public class OrderManager implements DataObserver, ServiceObserver{
     @Override
     public void update(Order order) {
         Command command = buildCommand(order);
-        
-//        final Duration timed = Duration.ofSeconds(10);
-//        ExecutorService dotExe = Executors.newSingleThreadExecutor();
-//        
-//        final Future<String> fut = dotExe.submit(new Callable() {
-//        	@Override
-//        	public String call*( th)
-//        }
-        
-        final Runnable recComm = new Thread()
-        		{
-        			@Override
-        			public void run()
-        			{
-        				 controllerInterface.sendCommand(command);
-        			}
-        		};
 
-        final Runnable upComm = new Thread()
-        		{
-        			@Override
-        			public void run()
-        			{
-        	            update(new ControllerResponse(order.getOrderID(), 1, -1, "No machines available."));
- 
-        			}
-        		};
-        		
+        final Runnable recComm = new Thread() {
+            @Override
+            public void run() {
+                controllerInterface.sendCommand(command);
+            }
+        };
+        final Runnable upComm = new Thread() {
+            @Override
+            public void run() {
+                update(new ControllerResponse(order.getOrderID(), 1, -1, "No machines available."));
+
+            }
+        };
+
         final ExecutorService exe = Executors.newSingleThreadExecutor();
         final Future fut = (command.getCoffeeMachineID() < 0 || command.getControllerID() < 0) ? exe.submit(upComm) : exe.submit(recComm);
 
-        
         try {
-        	fut.get(10, TimeUnit.MINUTES);
+            fut.get(10, TimeUnit.MINUTES);
+        } catch (InterruptedException | ExecutionException | TimeoutException ie) {
+            update(new ControllerResponse(order.getOrderID(), 2, 5, "Order Timeout"));
+            orderIDtoCoffeeMachineID.remove(order.getOrderID());
         }
-        catch (InterruptedException | ExecutionException | TimeoutException ie)
-        {
-        	update(new ControllerResponse(order.getOrderID(), 2, 5, "Order Timeout"));
-        	orderIDtoCoffeeMachineID.remove(order.getOrderID());
-        }
-
-
     }
 
     public Command buildCommand(Order order) {
-        // TODO implement logic to determine which coffee maker should build the order, then use it to build the order
-        
-    	ArrayList<CoffeeMachine> machines = this.databaseConnection.getCoffeeMachinesAtAddress(order.getStreetAddress(), order.getZipCode());
-    	
-    	CoffeeMachine primaryMach = new CoffeeMachine(-1, -1, "Simple");
-    	boolean orderIsSimple = order.getOptions() == null || order.getOptions().size() == 0;
+        ArrayList<CoffeeMachine> machines = this.databaseConnection.getCoffeeMachinesAtAddress(order.getStreetAddress(), order.getZipCode());
+
+        CoffeeMachine primaryMach = new CoffeeMachine(-1, -1, "Simple");
+        boolean orderIsSimple = order.getOptions() == null || order.getOptions().size() == 0;
         ArrayList<CoffeeMachine> machinesToRemove = new ArrayList<>();
 
-    	for (CoffeeMachine c : machines)
-    	{
-    		if (!this.databaseConnection.getDrinksForCoffeeMachine(c.getMachineId()).contains(order.getDrinkName()) ||
-                !orderIsSimple && c.getTypeOfMachine().equals("Simple"))
-    		{
-    		    machinesToRemove.add(c);
-    		}
-    	}
-    	
-    	machines.removeAll(machinesToRemove);
+        for (CoffeeMachine c : machines) {
+            if (!this.databaseConnection.getDrinksForCoffeeMachine(c.getMachineId()).contains(order.getDrinkName()) ||
+                    !orderIsSimple && c.getTypeOfMachine().equals("Simple")) {
+                machinesToRemove.add(c);
+            }
+        }
 
-        if(machines.size() > 0) {
-            if(!orderIsSimple) {
+        machines.removeAll(machinesToRemove);
+
+        if (machines.size() > 0) {
+            if (!orderIsSimple) {
                 primaryMach = machines.get(0);
             } else {
                 boolean foundSimpleMachine = false;
-                for(CoffeeMachine machine : machines) {
-                    if(machine.getTypeOfMachine().equals("Simple")){
+                for (CoffeeMachine machine : machines) {
+                    if (machine.getTypeOfMachine().equals("Simple")) {
                         foundSimpleMachine = true;
                         primaryMach = machine;
                         break;
                     }
                 }
 
-                if(!foundSimpleMachine) {
+                if (!foundSimpleMachine) {
                     primaryMach = machines.get(0);
                 }
             }
         }
-    	
-    	
-    	//add more logic to preempt this addition to the hash map
-    	this.orderIDtoCoffeeMachineID.put(order.getOrderID(), primaryMach.getMachineId());
-    	
-    	//needs after logic for returning
-    	Command command;
 
-    	if(primaryMach.getTypeOfMachine().equals("Simple")) {
-    	    command = simpleCoffeeMaker.buildCommand(order, primaryMach);
+        this.orderIDtoCoffeeMachineID.put(order.getOrderID(), primaryMach.getMachineId());
+
+        Command command;
+        if (primaryMach.getTypeOfMachine().equals("Simple")) {
+            command = simpleCoffeeMaker.buildCommand(order, primaryMach);
         } else {
-    	    command = advancedCoffeeMaker.buildCommand(order, primaryMach);
+            command = advancedCoffeeMaker.buildCommand(order, primaryMach);
         }
 
-    	return command;
+        return command;
     }
 
     public AppResponse buildAppResponse(ControllerResponse controllerResponse) {
         int orderID = controllerResponse.getOrderID();
-        if(orderIDtoCoffeeMachineID.containsKey(orderID)) {
+        if (orderIDtoCoffeeMachineID.containsKey(orderID)) {
             int status = controllerResponse.getStatus();
             int coffeeMachineID = orderIDtoCoffeeMachineID.get(orderID);
             String errorDescription = controllerResponse.getErrorDescription();

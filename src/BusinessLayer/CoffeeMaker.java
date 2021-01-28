@@ -9,4 +9,8 @@ public abstract class CoffeeMaker {
     public Command buildCommand(Order order, CoffeeMachine coffeeMachine) {
         return buildCommandBehavior.buildCommand(order, coffeeMachine);
     }
+
+    public void setBuildCommandBehavior(BuildCommandBehavior buildCommandBehavior) {
+        this.buildCommandBehavior = buildCommandBehavior;
+    }
 }

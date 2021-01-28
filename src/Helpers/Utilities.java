@@ -1,8 +1,11 @@
 package Helpers;
+
 import java.io.*;
 import java.nio.file.Paths;
 
 public class Utilities {
+    private static final String RESOURCES_FOLDER = "\\resources\\";
+    private static final String OUT_FOLDER = RESOURCES_FOLDER + "out\\";
 
     public static String readStringFromLocalFile(String localResourceFileName) {
         return fileToString(stringPathToFile(localResourceFileName));
@@ -10,7 +13,7 @@ public class Utilities {
 
     public static void writeStringToLocalFile(String localResourceFileName, String fileData) {
         String dir = getBasePath();
-        String localPath = dir + "\\resources\\out\\" + localResourceFileName;
+        String localPath = dir + OUT_FOLDER + localResourceFileName;
 
         try {
             FileWriter fileWriter = new FileWriter(localPath);
@@ -28,24 +31,20 @@ public class Utilities {
 
     private static File stringPathToFile(String path) {
         String dir = getBasePath();
-        String localPath = dir + "\\resources\\" + path;
+        String localPath = dir + RESOURCES_FOLDER + path;
 
         return new File(localPath);
     }
 
     private static String fileToString(File file) {
         StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath())))
-        {
+        try (BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath()))) {
 
             String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null)
-            {
+            while ((sCurrentLine = br.readLine()) != null) {
                 contentBuilder.append(sCurrentLine).append("\n");
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return contentBuilder.toString();
