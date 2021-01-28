@@ -68,10 +68,10 @@ public class Main {
      */
     public static void testControllerInterface() {
         ControllerInterface con = new ControllerInterface();
-        BusinessLayer.Option op = new BusinessLayer.Option("sugar", 3);
+        BusinessLayer.Option op = new BusinessLayer.Option("sugar", 7);
         ArrayList<BusinessLayer.Option> ops = new ArrayList<BusinessLayer.Option>();
         ops.add(op);
-        Command com = new Command(3, 4, 5, "Macchiato", "Automated", ops);
+        Command com = new Command(6, 7, 8, "Frappe", "Automated", ops);
         con.sendCommand(com);   
         System.out.println("Finished");
     }
