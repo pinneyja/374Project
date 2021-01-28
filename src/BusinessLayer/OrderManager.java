@@ -123,7 +123,22 @@ public class OrderManager implements DataObserver, ServiceObserver{
     	machines.removeAll(machinesToRemove);
 
         if(machines.size() > 0) {
-            primaryMach = machines.get(0);
+            if(!orderIsSimple) {
+                primaryMach = machines.get(0);
+            } else {
+                boolean foundSimpleMachine = false;
+                for(CoffeeMachine machine : machines) {
+                    if(machine.getTypeOfMachine().equals("Simple")){
+                        foundSimpleMachine = true;
+                        primaryMach = machine;
+                        break;
+                    }
+                }
+
+                if(!foundSimpleMachine) {
+                    primaryMach = machines.get(0);
+                }
+            }
         }
     	
     	
