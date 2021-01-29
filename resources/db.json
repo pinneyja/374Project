@@ -128,7 +128,7 @@
 			},
 		"2":{
 			"CoffeeMaker":2,
-			"DrinkType":["Expresso","Latte"]
+			"DrinkType":["Expresso","Latte", "Special"]
 			}
 	},
 "Condiment":

@@ -60,6 +60,7 @@ public class Main {
 //        DatabaseConnection dbc=new DatabaseConnection();
 //        ArrayList<CoffeeMachine> coffeee= dbc.getCoffeeMachinesAtAddress("200 N. Main", 47803);
 //        System.out.println(coffeee.size());
+        testControllerInterface();
     }
     
     /*
