@@ -31,10 +31,6 @@ public class DatabaseConnection {
     }
 
     public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode) {
-        return parseCoffeeMachinesAtAddress(address, zipCode);
-    }
-
-    public ArrayList<CoffeeMachine> parseCoffeeMachinesAtAddress(String address, int zipCode) {
         ArrayList<CoffeeMachine> coffeeMachinesAtAddress = new ArrayList<>();
 
         JSONObject coffeeMakerTable = jsonDatabase.getJSONObject(KEY_COFFEE_MAKER_TABLE);
