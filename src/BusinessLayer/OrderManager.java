@@ -55,8 +55,8 @@ public class OrderManager implements DataObserver, ServiceObserver {
     }
 
     @Override
-    public void update(Order order) {
-        Command command = buildCommand(order);
+    public void update(final Order order) {
+        final Command command = buildCommand(order);
 
         final Runnable recComm = new Thread() {
             @Override
