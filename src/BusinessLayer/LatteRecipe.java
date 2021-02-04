@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class LatteRecipe implements Recipe{
 
-	ArrayList<RecipeStep> steps; // = {array}
+	ArrayList<RecipeStep> recipeSteps; // = {array}
 	
 	public LatteRecipe()
 	{
@@ -15,7 +15,7 @@ public class LatteRecipe implements Recipe{
 	@Override
 	public ArrayList<RecipeStep> buildRecipe() {
 		// TODO Auto-generated method stub
-		return this.steps;
+		return this.recipeSteps;
 	}
 
 }
