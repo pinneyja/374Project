@@ -1,6 +1,9 @@
 package ServiceLayer;
 
 import BusinessLayer.*;
+import BusinessLayer.InterLayerCommunication.AppResponse;
+import BusinessLayer.InterLayerCommunication.Option;
+import BusinessLayer.InterLayerCommunication.ServiceObserver;
 import Helpers.Utilities;
 import org.json.JSONArray;
 import org.json.JSONException;

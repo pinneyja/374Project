@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 
-import BusinessLayer.Command;
-import DataLayer.CoffeeMachine;
+import BusinessLayer.InterLayerCommunication.Command;
+import BusinessLayer.InterLayerCommunication.Option;
 import DataLayer.ControllerInterface;
-import DataLayer.DatabaseConnection;
 import Helpers.Utilities;
 import ServiceLayer.ApplicationInterface;
 
@@ -70,8 +69,8 @@ public class Main {
      */
     public static void testControllerInterface() {
         ControllerInterface con = new ControllerInterface();
-        BusinessLayer.Option op = new BusinessLayer.Option("sugar", 7);
-        ArrayList<BusinessLayer.Option> ops = new ArrayList<BusinessLayer.Option>();
+        Option op = new Option("sugar", 7);
+        ArrayList<Option> ops = new ArrayList<Option>();
         ops.add(op);
         Command com = new Command(6, 7, 8, "Frappe", "Automated", ops);
         con.sendCommand(com);   

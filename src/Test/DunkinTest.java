@@ -6,10 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import BusinessLayer.Command;
-import BusinessLayer.Option;
+import BusinessLayer.InterLayerCommunication.Option;
 import BusinessLayer.OrderManager;
-import DataLayer.ControllerInterface;
 import Helpers.Utilities;
 import ServiceLayer.ApplicationInterface;
 import ServiceLayer.Order;
@@ -26,8 +24,8 @@ class DunkinTest {
 //	public void testCommandController()
 //	{
 //		ControllerInterface con = new ControllerInterface();
-//        BusinessLayer.Option op = new BusinessLayer.Option("sugar", 7);
-//        ArrayList<BusinessLayer.Option> ops = new ArrayList<BusinessLayer.Option>();
+//        BusinessLayer.InterLayerCommunication.Option op = new BusinessLayer.InterLayerCommunication.Option("sugar", 7);
+//        ArrayList<BusinessLayer.InterLayerCommunication.Option> ops = new ArrayList<BusinessLayer.InterLayerCommunication.Option>();
 //        ops.add(op);
 //        Command com = new Command(6, 7, 8, "Frappe", "Automated", ops);
 //        String strCom = con.sendCommand(com);  

@@ -1,6 +1,6 @@
 package DataLayer;
 
-import BusinessLayer.DataObserver;
+import BusinessLayer.InterLayerCommunication.DataObserver;
 
 public interface DataSubject {
     void registerObserver(DataObserver dataObserver);

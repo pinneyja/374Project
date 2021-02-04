@@ -1,5 +1,10 @@
 package BusinessLayer;
 
+import BusinessLayer.CoffeeMakers.AdvancedCoffeeMaker;
+import BusinessLayer.CoffeeMakers.CoffeeMaker;
+import BusinessLayer.CoffeeMakers.ProgrammableCoffeeMaker;
+import BusinessLayer.CoffeeMakers.SimpleCoffeeMaker;
+import BusinessLayer.InterLayerCommunication.*;
 import DataLayer.CoffeeMachine;
 import DataLayer.ControllerInterface;
 import DataLayer.ControllerResponse;

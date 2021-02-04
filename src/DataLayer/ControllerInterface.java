@@ -3,7 +3,9 @@ package DataLayer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import BusinessLayer.*;
+import BusinessLayer.InterLayerCommunication.Command;
+import BusinessLayer.InterLayerCommunication.DataObserver;
+import BusinessLayer.InterLayerCommunication.Option;
 import Helpers.Utilities;
 
 import org.json.JSONArray;

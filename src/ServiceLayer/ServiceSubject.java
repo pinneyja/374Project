@@ -1,6 +1,6 @@
 package ServiceLayer;
 
-import BusinessLayer.ServiceObserver;
+import BusinessLayer.InterLayerCommunication.ServiceObserver;
 
 public interface ServiceSubject {
     void registerObserver(ServiceObserver serviceObserver);

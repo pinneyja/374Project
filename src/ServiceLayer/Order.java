@@ -1,6 +1,6 @@
 package ServiceLayer;
 
-import BusinessLayer.Option;
+import BusinessLayer.InterLayerCommunication.Option;
 
 import java.util.ArrayList;
 
