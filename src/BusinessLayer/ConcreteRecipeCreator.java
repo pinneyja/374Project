@@ -11,21 +11,18 @@ public class ConcreteRecipeCreator implements RecipeCreator{
 		
 		if  (drinkType.equals("Latte"))
 		{
-			Recipe latRec = new LatteRecipe();
+			Recipe latteRecipe = new LatteRecipe();
 			
-			for (Option ops : ingredients)
-			{
-				
-			}
-		
-//			return;
+			return decorate(latteRecipe, ingredients);
 		}
 		
-		else if (drinkType.equals("PumpkinSpice")) //change if it needs to be different
+		else if (drinkType.equals("Pumpkin Spice")) 
 		{
-			Recipe pumpRec = new PumpkinSpiceRecipe();
+			Recipe pumpkinSpiceRecipe = new PumpkinSpiceRecipe();
 			
-//			return;
+			return decorate(pumpkinSpiceRecipe, ingredients);
+
+
 		}
 		
 		
@@ -37,7 +34,6 @@ public class ConcreteRecipeCreator implements RecipeCreator{
 	
 	public Recipe decorate(Recipe recipe, ArrayList<Option> ingredients) 
 	{
-//		Recipe currentRecipe = baseRecipe;
 		
 		for (Option option : ingredients)
 		{
