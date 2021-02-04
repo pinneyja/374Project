@@ -36,7 +36,9 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
                 Recipe recipe = recipeCreator.createRecipe(drinkType, ingredients);
                 recipeSteps = (recipe == null) ? null : recipe.buildRecipe();
             }
+            options.removeAll(ingredients);
         }
+
 
         return new Command(controllerID, coffeeMachineID, orderID, drinkName, BuildCommandBehavior.REQUEST_TYPE_PROGRAMMABLE, options, recipeSteps);
     }
