@@ -20,6 +20,7 @@ public class OrderManager implements DataObserver, ServiceObserver {
     DatabaseConnection databaseConnection;
     CoffeeMaker simpleCoffeeMaker;
     CoffeeMaker advancedCoffeeMaker;
+    CoffeeMaker automatedCoffeeMaker;
     ApplicationInterface applicationInterface;
     ControllerInterface controllerInterface;
 
