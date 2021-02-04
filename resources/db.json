@@ -7,7 +7,7 @@
 			},
 		"Advanced":{
 			"CapabilityName":"Advanced",
-			"Description":"Produces drinks with options includeing condiments"
+			"Description":"Produces drink with options includeing condiments"
 			},
 		"Programmable":{
 			"CapabilityName":"Programmable",
@@ -18,19 +18,13 @@
 	{
 		"1":{
 			"ControllerID":1,
-			"Type":"Simple",
+			"Type":"Programmable",
 			"Street_Address":"200 N. Main",
 			"ZIP_code":47803
 			},
 		"2":{
 			"ControllerID":2,
-			"Type":"Advanced",
-			"Street_Address":"200 N. Main",
-			"ZIP_code":47803
-			},
-		"3":{
-			"ControllerID":3,
-			"Type":"Simple",
+			"Type":"Programmable",
 			"Street_Address":"3 S. Walnut",
 			"ZIP_code":60601
 			}
@@ -39,27 +33,43 @@
 	{
 		"Americano":{
 			"DrinkName": "Americano",
-			"Description": "Regular caffinated coffee"
+			"Description": "Regular caffinated coffee",
+			"RecipeNeeded": {}
 			},
 		"Latte":{
 			"DrinkName": "Latte",
-			"Description":"Coffee drink with milk and whipped cream"
+			"Description":"Coffee drink with milk and whipped cream",
+			"RecipeNeeded": {
+				"1":"Steam milk",
+				"2":"Add expresso",
+				"3":"Top with whipped cream"
+				}
 			},
 		"Decaff":{
 			"DrinkName":"Decaff",
-			"Description":"Regular decaffinated coffee"
+			"Description":"Regular decaffinated coffee",
+			"RecipeNeeded": {}
 			},
 		"Expresso":{
 			"DrinkName":"Expresso",
-			"Description":"Coffee concentrated"
+			"Description":"Coffee concentrated",
+			"RecipeNeeded": {}
 			},
 		"Columbia Dark":{
 			"DrinkName":"Columbia Dark",
-			"Description":"Stronger roast with Columbian beans"
+			"Description":"Stronger roast with Columbian beans",
+			"RecipeNeeded": {}
 			},
 		"Pumkin Spice":{
 			"DrinkName":"Pumkin Spice",
-			"Description":"Seasonal drink w/Pumkin"
+			"Description":"Seasonal drink w/Pumkin",
+			"RecipeNeeded": {
+				"1":"Add coffee",
+				"2":"Add Pumkin Spice",
+				"3":"Add cream",
+				"4":"Mix",
+				"5":"Top with nutmeg"
+				}
 			}
 		},
 "Ingredient":
@@ -81,14 +91,23 @@
 			"Description":"Regular sugar cane sugar"
 			},
 		"Decaff Coffee":{
-			"Name":"Decaff Coffee"
+			"Name":"Decaff Coffee",
+			"Description":"Reg. Decaffeinated coffee beens, ground"
 			},
 		"Whipped Cream":{
 			"Name":"Whipped Cream",
 			"Description":"Dairy-based heavy whipped cream"
 			},
+		"Hazelnut":{
+			"Name":"Hazelnut",
+			"Description":"Syrup"
+			},
 		"Pumkin Spice":{
 			"Name":"Pumkin Spice",
+			"Description":"Spice additive"
+			},
+		"Nutmeg":{
+			"Name":"Nutmeg",
 			"Description":"Spice additive"
 			}
 	},	
@@ -97,12 +116,17 @@
 		"1":{
 			"MachineID":1,
 			"Controller":2,
-			"Description":"Advanced Italian"
+			"Description":"Automated Italian"
 			},
 		"2":{
 			"MachineID":2,
 			"Controller":1,
 			"Description":"Manual expresso"
+			},
+		"3":{
+			"MachineID":3,
+			"Controller":1,
+			"Description":"Programmable"
 			}
 	},
 "DrinkIngredient":
@@ -135,15 +159,19 @@
 	{
 		"Cream":{
 			"Name":"Cream",
-			"Description":"Dairy based individual serving"
+			"Description":"Ounce serving"
 			},
 		"Sugar":{
 			"Name":"Sugar",
-			"Description":"Cane sugar teaspoon"
+			"Description":"Teaspoon"
 			},
 		"NutraSweet":{
 			"Name":"NutraSweet",
-			"Description":"Individual serving"
+			"Description":"Teaspoon"
+			},
+		"Hazelnut":{
+			"Name":"Hazelnut",
+			"Description":"Teaspoon (squirt)"
 			}
 	},
 "CoffeeMakerCapability":
