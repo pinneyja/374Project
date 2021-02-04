@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MilkDecorator implements IngredientDecorator{
 	
 	Recipe recipe;
-	RecipeStep recStep; //add recstep
+	RecipeStep recStep = new RecipeStep("steam", "milk"); //add recstep
 	
 	public MilkDecorator(Recipe recipe)
 	{

@@ -2,12 +2,11 @@ package BusinessLayer;
 
 import java.util.ArrayList;
 
-public class CoffeeDecorator implements IngredientDecorator{
-	
+public class SugarDecorator implements IngredientDecorator{
 	Recipe recipe;
-	RecipeStep recipeStep = new RecipeStep("add", "coffee"); //add recstep
+	RecipeStep recStep = new RecipeStep("add", "sugar"); //add recstep
 	
-	public CoffeeDecorator(Recipe recipe)
+	public SugarDecorator(Recipe recipe)
 	{
 		this.recipe = recipe;
 	}
@@ -16,7 +15,7 @@ public class CoffeeDecorator implements IngredientDecorator{
 	public ArrayList<RecipeStep> buildRecipe() {
 		// TODO Auto-generated method stub
 		ArrayList<RecipeStep> recipeSteps = this.recipe.buildRecipe();
-		recipeSteps.add(recipeStep);
+		recipeSteps.add(recStep);
 		return recipeSteps;
 	}
 
