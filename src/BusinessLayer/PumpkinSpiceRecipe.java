@@ -5,11 +5,16 @@ import java.util.ArrayList;
 public class PumpkinSpiceRecipe implements Recipe {
 
 	
-	ArrayList<RecipeStep> recipeSteps; // = {array}
+	ArrayList<RecipeStep> recipeSteps = new ArrayList<RecipeStep>();
+
 	
 	public PumpkinSpiceRecipe()
 	{
-		
+		recipeSteps.add(new RecipeStep("add","coffee"));
+		recipeSteps.add(new RecipeStep("add","pumpkin spice"));
+		recipeSteps.add(new RecipeStep("add","cream"));
+		recipeSteps.add(new RecipeStep("mix",""));
+		recipeSteps.add(new RecipeStep("top","nutmeg"));
 	}
 	
 	

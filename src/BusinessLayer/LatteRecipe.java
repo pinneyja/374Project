@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 public class LatteRecipe implements Recipe{
 
-	ArrayList<RecipeStep> recipeSteps; // = {array}
+	ArrayList<RecipeStep> recipeSteps = new ArrayList<RecipeStep>();
+	
+
 	
 	public LatteRecipe()
 	{
-		
+		recipeSteps.add(new RecipeStep("steam","milk"));
+		recipeSteps.add(new RecipeStep("add","expresso"));
+		recipeSteps.add(new RecipeStep("top","whipped cream"));
 	}
 	
 	
