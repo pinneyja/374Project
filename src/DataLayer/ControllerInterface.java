@@ -34,14 +34,18 @@ public class ControllerInterface implements DataSubject {
     private static final String C_OPTIONS_KEY = "Options";
     private static final String C_OPTION_NAME_KEY = "Name";
     private static final String C_OPTION_QUANTITY_KEY = "qty";
+    
+    private static final String C_RECIPE_KEY = "Recipe";
+    private static final String C_RECIPE_COMMANDSTEP_KEY = "commandstep";
+    private static final String C_RECIPE_OBJECT_KEY = 	"object";
 
-    HashSet<DataObserver> dataObservers;
-    int numCommands = 2; // TODO: This changes so we know when to start processing controller response file.
+    HashSet<DataObserver> dataObservers; // DataObservers would be OrderManager
+    int numCommands = 2; // This changes so we know when to start processing controller response file.
 
     public ControllerInterface() {
         dataObservers = new HashSet<>();
     }
-
+    
     private ArrayList<ControllerResponse> readResponsesFromFile() {
         ArrayList<ControllerResponse> responses = new ArrayList<>();
 
@@ -62,6 +66,9 @@ public class ControllerInterface implements DataSubject {
         return responses;
     }
 
+    /*
+     * Parses JSON String into a Controller Response
+     */
     private ControllerResponse parseControllerResponse(String jsonCRAsString) {
 
         JSONObject jsonDrinkResponse = new JSONObject(jsonCRAsString).getJSONObject(CR_DRINK_KEY);
@@ -81,6 +88,10 @@ public class ControllerInterface implements DataSubject {
         return new ControllerResponse(orderID, status, errorCode, errorDesc);
     }
 
+    /*
+     * Initial method that gets called in this class.
+     * Will include sending recipes as well.
+     */
     public void sendCommand(Command command) {
         JSONObject jsonCommand = new JSONObject().put(C_COMMAND_KEY, new JSONObject());
         JSONObject jsonCommandBody = jsonCommand.getJSONObject(C_COMMAND_KEY);
@@ -104,6 +115,26 @@ public class ControllerInterface implements DataSubject {
                 jsonCommandBodyOptions.put(jsonOption);
             }
         }
+        
+        
+     // Currently commented out b/c command.getRecipeSteps() does not exist.
+        
+//        ArrayList<RecipeStep> recipes = command.getRecipeSteps();
+//        if (recipes != null) {
+//        	jsonCommandBody.put(C_RECIPE_KEY, new JSONArray());
+//        	JSONArray jsonCommandBodyRecipes = jsonCommandBody.getJSONArray(C_RECIPE_KEY);
+//        	
+//        	for (RecipeStep recipe : recipes) {
+//        		JSONObject jsonRecipe = new JSONObject();
+//        		jsonRecipe.put(C_RECIPE_COMMANDSTEP_KEY, recipe.getCommandStep());
+//        		if (recipe.getObject() != null) {
+//        			jsonRecipe.put(C_RECIPE_OBJECT_KEY, recipe.getObject());
+//        		}
+//        		        		
+//        		jsonCommandBodyRecipes.put(jsonRecipe);
+//        	}
+//        }
+       
 
         String jsonCommandString = jsonCommand.toString(4) + "\n";
         String currentFile = Utilities.readStringFromLocalFile(COMMAND_STREAM_FILE_IN_OUT);
@@ -116,6 +147,9 @@ public class ControllerInterface implements DataSubject {
         }
     }
 
+    /*
+     * Once called, creates responses and sends them back to DataObservers.
+     */
     private void sendBackResponses() {
         readResponsesFromFile();
 
@@ -124,6 +158,9 @@ public class ControllerInterface implements DataSubject {
         }
     }
     
+    /*
+     * Deals with sending information to the OrderManager
+     */
     @Override
     public void registerObserver(DataObserver dataObserver) {
         dataObservers.add(dataObserver);
