@@ -6,6 +6,8 @@ import DataLayer.ControllerInterface;
 import Helpers.Utilities;
 import ServiceLayer.ApplicationInterface;
 
+import static java.lang.System.exit;
+
 public class Main {
     private static final String[] ORDERS = {
             "{\n" +
@@ -60,6 +62,8 @@ public class Main {
 //        ArrayList<CoffeeMachine> coffeee= dbc.getCoffeeMachinesAtAddress("200 N. Main", 47803);
 //        System.out.println(coffeee.size());
         testControllerInterface();
+
+//        exit(0);
     }
     
     /*

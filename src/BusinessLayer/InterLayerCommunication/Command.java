@@ -53,4 +53,8 @@ public class Command {
     public ArrayList<RecipeStep> getRecipe() {
         return recipeSteps;
     }
+
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
+    }
 }

@@ -48,39 +48,39 @@ public class ConcreteRecipeCreator implements RecipeCreator {
 			{
 				switch (optionName) 
 				{
-				case "coffee":
+				case "Coffee":
 					recipe = new CoffeeDecorator(recipe);
 					break;
 				
-				case "milk":
+				case "Milk":
 					recipe = new MilkDecorator(recipe);
 					break;
 					
-				case "soymilk":
+				case "Soy Milk":
 					recipe = new SoyMilkDecorator(recipe);
 					break;
 					
-				case "sugar":
+				case "Sugar":
 					recipe = new SugarDecorator(recipe);
 					break;
 					
-				case "decaff coffee":
+				case "Decaff Coffee":
 					recipe = new DecaffCoffeeDecorator(recipe);
 					break;
 					
-				case "whipped cream":
+				case "Whipped Cream":
 					recipe = new WhippedCreamDecorator(recipe);
 					break;
 					
-				case "hazelnut":
+				case "Hazelnut":
 					recipe = new HazelnutDecorator(recipe);
 					break;
 					
-				case "pumpkin spice":
+				case "Pumpkin Spice":
 					recipe = new PumpkinSpiceDecorator(recipe);
 					break;
 					
-				case "nutmeg":
+				case "Nutmeg":
 					recipe = new NutmegDecorator(recipe);
 					break;
 				}

@@ -102,6 +102,7 @@ public class OrderManager implements DataObserver, ServiceObserver {
             for (Option option : order.getOptions()) {
                 if (ingredientsForDrink.contains(option.getName())) {
                     ingredients.add(option);
+                    option.setIsIngredient(true);
                 }
             }
         }
@@ -151,6 +152,14 @@ public class OrderManager implements DataObserver, ServiceObserver {
             command = advancedCoffeeMaker.buildCommand(order, primaryMach);
         } else {
             command = programmableCoffeeMaker.buildCommand(order, primaryMach);
+        }
+
+        if(orderIsSimple) {
+            command.setRequestType("Simple");
+        } else if(orderIsAutomated) {
+            command.setRequestType("Automated");
+        } else {
+            command.setRequestType("Programmable");
         }
 
         return command;

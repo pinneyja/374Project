@@ -140,8 +140,8 @@
 			"IngredientName":["Coffee","Milk","Whipped Cream","Sugar"]
 			},
 		"Pumkin Spice":{
-			"DrinkName":"Pumkin Spice",
-			"IngredientName":["Coffee","Sugar","Pumkin Spice"]
+			"DrinkName":"Pumpkin Spice",
+			"IngredientName":["Coffee","Sugar","Pumpkin Spice"]
 			}
 	},
 "CoffeemakerDrink":
