@@ -23,7 +23,10 @@ public class DatabaseConnection {
     private static final String KEY_CONTROLLER_TYPE = "Type";
     private static final String KEY_COFFEE_MAKER_ID = "MachineID";
     private static final String KEY_COFFEE_MAKER_DRINK_DRINKS = "DrinkType";
+    private static final String KEY_DRINK_INGREDIENT_TABLE = "DrinkIngredient";
+    private static final String KEY_DRINK_INGREDIENT_INGREDIENT = "IngredientName";
 
+    
     private JSONObject jsonDatabase;
 
     public DatabaseConnection() {
@@ -76,6 +79,26 @@ public class DatabaseConnection {
 
         for (int i = 0; i < coffeeMakerDrinksArray.length(); i++) {
             drinkTypes.add(coffeeMakerDrinksArray.getString(i));
+        }
+
+        return drinkTypes;
+    }
+    
+    public ArrayList<String> getIndredients(String drinkName){
+    	JSONObject drinkIngredientTable = jsonDatabase.getJSONObject(KEY_DRINK_INGREDIENT_TABLE);
+    	JSONObject drink;
+    	
+        try {
+            drink = drinkIngredientTable.getJSONObject(drinkName);
+        } catch (Exception e) {
+        	System.out.println("Requested drink does not exist in system!");
+            return new ArrayList<>();
+        }
+        JSONArray drinkIngredientArray = drink.getJSONArray(KEY_DRINK_INGREDIENT_INGREDIENT);
+        ArrayList<String> drinkTypes = new ArrayList<>();
+
+        for (int i = 0; i < drinkIngredientArray.length(); i++) {
+            drinkTypes.add(drinkIngredientArray.getString(i));
         }
 
         return drinkTypes;
