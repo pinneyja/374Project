@@ -85,7 +85,7 @@ class DunkinTest {
         Order o1 = new Order(0, "200 N. Main",47803,"Latte", ops);
         OrderManager om = new OrderManager(applicationInterface);
         System.out.println(om.buildCommand(o1).getCoffeeMachineID());
-        assertEquals(1, om.buildCommand(o1).getCoffeeMachineID());
+        assertEquals(3, om.buildCommand(o1).getCoffeeMachineID());
         
 	}
 

@@ -20,7 +20,7 @@ public class OrderManager implements DataObserver, ServiceObserver {
     DatabaseConnection databaseConnection;
     CoffeeMaker simpleCoffeeMaker;
     CoffeeMaker advancedCoffeeMaker;
-    CoffeeMaker automatedCoffeeMaker;
+    CoffeeMaker programmableCoffeeMaker;
     ApplicationInterface applicationInterface;
     ControllerInterface controllerInterface;
 
@@ -37,6 +37,7 @@ public class OrderManager implements DataObserver, ServiceObserver {
         databaseConnection = new DatabaseConnection();
         simpleCoffeeMaker = new SimpleCoffeeMaker();
         advancedCoffeeMaker = new AdvancedCoffeeMaker();
+        programmableCoffeeMaker = new ProgrammableCoffeeMaker();
         orderIDtoCoffeeMachineID = new HashMap<>();
 
         statusToMessage = new HashMap<>();
@@ -89,11 +90,24 @@ public class OrderManager implements DataObserver, ServiceObserver {
 
         CoffeeMachine primaryMach = new CoffeeMachine(-1, -1, "Simple");
         boolean orderIsSimple = order.getOptions() == null || order.getOptions().size() == 0;
+
+        ArrayList<String> ingredientsForDrink = this.databaseConnection.getIngredients(order.getDrinkName());
+        ArrayList<Option> ingredients = new ArrayList<>();
+        if(order.getOptions() != null) {
+            for (Option option : order.getOptions()) {
+                if (ingredientsForDrink.contains(option.getName())) {
+                    ingredients.add(option);
+                }
+            }
+        }
+
+        boolean orderIsAutomated = !orderIsSimple && ingredients.size() == 0;
         ArrayList<CoffeeMachine> machinesToRemove = new ArrayList<>();
 
         for (CoffeeMachine c : machines) {
             if (!this.databaseConnection.getDrinksForCoffeeMachine(c.getMachineId()).contains(order.getDrinkName()) ||
-                    !orderIsSimple && c.getTypeOfMachine().equals("Simple")) {
+                    (!orderIsSimple && c.getTypeOfMachine().equals("Simple")) ||
+                    (!orderIsSimple && !orderIsAutomated && c.getTypeOfMachine().equals("Automated"))) {
                 machinesToRemove.add(c);
             }
         }
@@ -105,15 +119,19 @@ public class OrderManager implements DataObserver, ServiceObserver {
                 primaryMach = machines.get(0);
             } else {
                 boolean foundSimpleMachine = false;
+                boolean foundAutomatedMachine = false;
                 for (CoffeeMachine machine : machines) {
                     if (machine.getTypeOfMachine().equals("Simple")) {
                         foundSimpleMachine = true;
                         primaryMach = machine;
                         break;
+                    } else if(machine.getTypeOfMachine().equals("Automated")) {
+                        foundAutomatedMachine = true;
+                        primaryMach = machine;
                     }
                 }
 
-                if (!foundSimpleMachine) {
+                if (!foundSimpleMachine && !foundAutomatedMachine) {
                     primaryMach = machines.get(0);
                 }
             }
@@ -124,8 +142,10 @@ public class OrderManager implements DataObserver, ServiceObserver {
         Command command;
         if (primaryMach.getTypeOfMachine().equals("Simple")) {
             command = simpleCoffeeMaker.buildCommand(order, primaryMach);
-        } else {
+        } else if (primaryMach.getTypeOfMachine().equals("Automated")) {
             command = advancedCoffeeMaker.buildCommand(order, primaryMach);
+        } else {
+            command = programmableCoffeeMaker.buildCommand(order, primaryMach);
         }
 
         return command;

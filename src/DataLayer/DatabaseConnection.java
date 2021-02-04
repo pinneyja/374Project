@@ -25,6 +25,8 @@ public class DatabaseConnection {
     private static final String KEY_COFFEE_MAKER_DRINK_DRINKS = "DrinkType";
     private static final String KEY_DRINK_INGREDIENT_TABLE = "DrinkIngredient";
     private static final String KEY_DRINK_INGREDIENT_INGREDIENT = "IngredientName";
+    private static final String KEY_COFFEE_MAKER_CAPABILITY_TABLE = "CoffeeMakerCapability";
+    private static final String KEY_COFFEE_MAKER_CAPABILITIES = "Capability";
 
     
     private JSONObject jsonDatabase;
@@ -38,13 +40,16 @@ public class DatabaseConnection {
 
         JSONObject coffeeMakerTable = jsonDatabase.getJSONObject(KEY_COFFEE_MAKER_TABLE);
         JSONObject controllerTable = jsonDatabase.getJSONObject(KEY_CONTROLLER_TABLE);
+        JSONObject coffeeMakerCapabilityTable = jsonDatabase.getJSONObject(KEY_COFFEE_MAKER_CAPABILITY_TABLE);
 
-        Iterator<String> keys = coffeeMakerTable.keys();
+        Iterator<String> coffeeMakerIDs = coffeeMakerTable.keys();
 
-        while (keys.hasNext()) {
-            String key = keys.next();
+        while (coffeeMakerIDs.hasNext()) {
+            String stringCoffeeMakerID = coffeeMakerIDs.next();
 
-            JSONObject jsonCoffeeMaker = (JSONObject) coffeeMakerTable.get(key);
+            JSONObject jsonCoffeeMaker = coffeeMakerTable.getJSONObject(stringCoffeeMakerID);
+            JSONObject jsonCoffeeMakerCapability = coffeeMakerCapabilityTable.getJSONObject(stringCoffeeMakerID);
+            JSONArray jsonCoffeeMakerCapabilities = jsonCoffeeMakerCapability.getJSONArray(KEY_COFFEE_MAKER_CAPABILITIES);
             String controllerNumber = Integer.toString(jsonCoffeeMaker.getInt(KEY_COFFEE_MAKER_CONTROLLER));
             JSONObject jsonController = controllerTable.getJSONObject(controllerNumber);
 
@@ -54,9 +59,21 @@ public class DatabaseConnection {
             if (jsonControllerMatchesAddress) {
                 int coffeeMakerID = jsonCoffeeMaker.getInt(KEY_COFFEE_MAKER_ID);
                 int coffeeMakerControllerID = jsonCoffeeMaker.getInt(KEY_COFFEE_MAKER_CONTROLLER);
-                String controllerType = jsonController.getString(KEY_CONTROLLER_TYPE);
+                String highestCoffeeMakerCapability = "Simple";
+                int capabilityValue = 1;
 
-                CoffeeMachine currentMachine = new CoffeeMachine(coffeeMakerID, coffeeMakerControllerID, controllerType);
+                for(int i = 0; i < jsonCoffeeMakerCapabilities.length(); i ++) {
+                    String capability = jsonCoffeeMakerCapabilities.getString(i);
+                    if(capability.equals("Automated") && capabilityValue < 2) {
+                        highestCoffeeMakerCapability = capability;
+                        capabilityValue = 2;
+                    } else {
+                        highestCoffeeMakerCapability = capability;
+                        capabilityValue = 3;
+                    }
+                }
+
+                CoffeeMachine currentMachine = new CoffeeMachine(coffeeMakerID, coffeeMakerControllerID, highestCoffeeMakerCapability);
                 coffeeMachinesAtAddress.add(currentMachine);
             }
         }
@@ -84,14 +101,14 @@ public class DatabaseConnection {
         return drinkTypes;
     }
     
-    public ArrayList<String> getIndredients(String drinkName){
+    public ArrayList<String> getIngredients(String drinkName){
     	JSONObject drinkIngredientTable = jsonDatabase.getJSONObject(KEY_DRINK_INGREDIENT_TABLE);
     	JSONObject drink;
     	
         try {
             drink = drinkIngredientTable.getJSONObject(drinkName);
         } catch (Exception e) {
-        	System.out.println("Requested drink does not exist in system!");
+//        	System.out.println("Requested drink does not exist in system!");
             return new ArrayList<>();
         }
         JSONArray drinkIngredientArray = drink.getJSONArray(KEY_DRINK_INGREDIENT_INGREDIENT);

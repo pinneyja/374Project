@@ -153,7 +153,11 @@
 		"2":{
 			"CoffeeMaker":2,
 			"DrinkType":["Expresso","Latte", "Special"]
-			}
+			},
+		"3":{
+			"CoffeeMaker":3,
+			"DrinkType":["Latte","Americano","Expresso","Columbia Dark","Decaff","Pumpkin Spice"]
+		}
 	},
 "Condiment":
 	{
@@ -183,6 +187,10 @@
 		"2":{
 			"CoffeeMaker":2,
 			"Capability":["Simple"]
-			}
+			},
+		"3":{
+			"CoffeeMaker":3,
+			"Capability": ["Simple","Automated","Programmable"]
+		}
 	}
 }

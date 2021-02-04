@@ -11,21 +11,27 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
         ArrayList<Option> ingredients = new ArrayList<>();
         String drinkType = order.getDrinkName();
 
-        for(Option option : order.getOptions()) {
-            if(option.isIngredient()) {
-                ingredients.add(option);
-            }
-        }
-
-        // TODO, create a Recipe creator and call createRecipe(drinkType, ingredients)
-        ArrayList<RecipeStep> recipeSteps =
-
         int coffeeMachineID = coffeeMachine.getMachineId();
         int controllerID = coffeeMachine.getControllerID();
         int orderID = order.getOrderID();
         String drinkName = order.getDrinkName();
         ArrayList<Option> options = order.getOptions();
 
-        return new Command(controllerID, coffeeMachineID, orderID, drinkName, BuildCommandBehavior.REQUEST_TYPE_AUTOMATED, options, recipeSteps);
+        ArrayList<RecipeStep> recipeSteps = null;
+        if(options != null && options.size() > 0) {
+            for (Option option : order.getOptions()) {
+                if (option.isIngredient()) {
+                    ingredients.add(option);
+                }
+            }
+
+            if (ingredients.size() > 0) {
+                RecipeCreator recipeCreator = new ConcreteRecipeCreator();
+                Recipe recipe = recipeCreator.createRecipe(drinkType, ingredients);
+                recipeSteps = recipe.buildRecipe();
+            }
+        }
+
+        return new Command(controllerID, coffeeMachineID, orderID, drinkName, BuildCommandBehavior.REQUEST_TYPE_PROGRAMMABLE, options, recipeSteps);
     }
 }
