@@ -1,15 +1,26 @@
 package BusinessLayer;
 
+import java.util.Collection;
+
 public class RecipeStep {
 	
-	String command;
-	String comObj;
+	String commandStep;
+	String object;
 	
-	public RecipeStep(String command, String comObj)
+	public RecipeStep(String commandStep, String object)
 	{
-		this.command = command;
-		this.comObj = comObj;
+		this.commandStep = commandStep;
+		this.object = object;
 		
 	}
+
+	public String getCommandStep() {
+		return commandStep;
+	}
+
+	public String getObject() {
+		return object;
+	}
+	
 
 }
