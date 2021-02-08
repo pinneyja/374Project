@@ -6,6 +6,8 @@ import BusinessLayer.RecipeCreation.ConcreteRecipeCreator;
 import BusinessLayer.RecipeCreation.Recipe;
 import BusinessLayer.RecipeCreation.RecipeCreator;
 import BusinessLayer.RecipeCreation.RecipeStep;
+import Commander.BuildRecipeCommand;
+import Commander.Commander;
 import DataLayer.CoffeeMachine;
 import ServiceLayer.Order;
 
@@ -34,7 +36,12 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
             if (ingredients.size() > 0) {
                 RecipeCreator recipeCreator = new ConcreteRecipeCreator();
                 Recipe recipe = recipeCreator.createRecipe(drinkType, ingredients);
-                recipeSteps = (recipe == null) ? null : recipe.buildRecipe();
+                
+                BuildRecipeCommand buildRecipeCommand = new BuildRecipeCommand(recipe);
+                
+                buildRecipeCommand.execute();
+                recipeSteps = (recipe == null) ? null : buildRecipeCommand.recipeSteps;//Singleton idea for buildrecipe ***
+//                recipeSteps = (recipe == null) ? null : recipe.buildRecipe();
             }
             options.removeAll(ingredients);
         }
