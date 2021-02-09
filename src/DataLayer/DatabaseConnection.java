@@ -8,6 +8,8 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import BusinessLayer.RecipeCreation.RecipeStep;
+
 public class DatabaseConnection {
 
     // File Names
@@ -27,6 +29,13 @@ public class DatabaseConnection {
     private static final String KEY_DRINK_INGREDIENT_INGREDIENT = "IngredientName";
     private static final String KEY_COFFEE_MAKER_CAPABILITY_TABLE = "CoffeeMakerCapability";
     private static final String KEY_COFFEE_MAKER_CAPABILITIES = "Capability";
+    private static final String KEY_DRINK_TYPE = "DrinkTypes";
+    private static final String KEY_DRINK_RECIPE = "RecipeNeeded";
+    private static final String KEY_INGREDIENT_TABLE = "Ingredient";
+    private static final String KEY_COMMAND_STEP = "CommandStep";
+    private static final String KEY_CONDIMENT_TABLE = "Condiment";
+
+    
 
     
     private JSONObject jsonDatabase;
@@ -119,5 +128,56 @@ public class DatabaseConnection {
         }
 
         return drinkTypes;
+    }
+    
+    public JSONObject getRecipe(String drinkName) {
+    	JSONObject storedDrinkTable = jsonDatabase.getJSONObject(KEY_DRINK_TYPE);
+    	JSONObject drink;
+    	try {
+            drink = storedDrinkTable.getJSONObject(drinkName);
+        } catch (Exception e) {
+            return new JSONObject();
+        }
+    	JSONObject recipe=drink.getJSONObject(KEY_DRINK_RECIPE);
+    	return recipe;
+    }
+    
+    public ArrayList<RecipeStep> getRecipeSteps(String drinkName) {
+    	JSONObject storedDrinkTable = jsonDatabase.getJSONObject(KEY_DRINK_TYPE);
+    	ArrayList<RecipeStep> steps=new ArrayList<RecipeStep>();
+    	JSONObject drink;
+    	try {
+            drink = storedDrinkTable.getJSONObject(drinkName);
+        } catch (Exception e) {
+            return steps;
+        }
+    	JSONObject recipe=drink.getJSONObject(KEY_DRINK_RECIPE);
+    	
+    	for (int i = 0; i < recipe.length(); i++) {
+    		String obj=recipe.getString(Integer.toString(i));
+    		if(obj.equals("Mix")) {
+        		steps.add(new RecipeStep("Mix", "Spoon"));
+    		}else {    			
+    			steps.add(new RecipeStep(getCommandStep(obj), obj));
+    		}
+    	}
+    	return steps;
+    }
+    
+    public String getCommandStep(String ingredientName) {
+    	JSONObject ingredientTable = jsonDatabase.getJSONObject(KEY_INGREDIENT_TABLE);
+    	JSONObject condTable = jsonDatabase.getJSONObject(KEY_CONDIMENT_TABLE);
+    	
+    	JSONObject ingredient;
+    	try {
+    		ingredient = ingredientTable.getJSONObject(ingredientName);
+        } catch (Exception e) {
+            try {
+            	ingredient = condTable.getJSONObject(ingredientName);
+            } catch(Exception v) {
+            	return ingredientName + " is not a offered ingredient or condiment";
+            }
+        }
+    	return ingredient.getString(KEY_COMMAND_STEP);
     }
 }

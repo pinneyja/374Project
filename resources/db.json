@@ -40,9 +40,9 @@
 			"DrinkName": "Latte",
 			"Description":"Coffee drink with milk and whipped cream",
 			"RecipeNeeded": {
-				"1":"Steam milk",
-				"2":"Add expresso",
-				"3":"Top with whipped cream"
+				"1":"Milk",
+				"2":"Expresso",
+				"3":"Whipped Cream"
 				}
 			},
 		"Decaff":{
@@ -64,11 +64,11 @@
 			"DrinkName":"Pumkin Spice",
 			"Description":"Seasonal drink w/Pumkin",
 			"RecipeNeeded": {
-				"1":"Add coffee",
-				"2":"Add Pumkin Spice",
-				"3":"Add cream",
+				"1":"Coffee",
+				"2":"Pumkin Spice",
+				"3":"Cream",
 				"4":"Mix",
-				"5":"Top with nutmeg"
+				"5":"Nutmeg"
 				}
 			}
 		},
@@ -76,41 +76,56 @@
 	{
 		"Coffee":{
 			"Name":"Coffee",
-			"Description":"Reg. Coffee beans. ground"
+			"Description":"Reg. Coffee beans. ground",
+			"CommandStep":"Add"
+			},
+		"Expresso":{
+			"Name":"Expresso",
+			"Decription":"Coffee concentrated",
+			"CommandStep":"Add"
 			},
 		"Milk":{
 			"Name":"Milk",
-			"Description":"Regular dairy milk"
+			"Description":"Regular dairy milk",
+			"CommandStep":"Steam"
 			},
 		"Soy Milk":{
 			"Name":"Soy Milk",
-			"Description":"Milk-like, but from soybeans"
+			"Description":"Milk-like, but from soybeans",
+			"CommandStep":"Steam"
 			},
 		"Sugar":{
 			"Name":"Sugar",
-			"Description":"Regular sugar cane sugar"
+			"Description":"Regular sugar cane sugar",
+			"CommandStep":"Add"
 			},
 		"Decaff Coffee":{
 			"Name":"Decaff Coffee",
-			"Description":"Reg. Decaffeinated coffee beens, ground"
+			"Description":"Reg. Decaffeinated coffee beens, ground",
+			"CommandStep":"Add"
 			},
 		"Whipped Cream":{
 			"Name":"Whipped Cream",
-			"Description":"Dairy-based heavy whipped cream"
+			"Description":"Dairy-based heavy whipped cream",
+			"CommandStep":"Top"
 			},
 		"Hazelnut":{
 			"Name":"Hazelnut",
-			"Description":"Syrup"
+			"Description":"Syrup",
+			"CommandStep":"Add"
 			},
 		"Pumkin Spice":{
 			"Name":"Pumkin Spice",
-			"Description":"Spice additive"
+			"Description":"Spice additive",
+			"CommandStep":"Top"
 			},
 		"Nutmeg":{
 			"Name":"Nutmeg",
-			"Description":"Spice additive"
+			"Description":"Spice additive",
+			"CommandStep":"Top"
 			}
-	},	
+	},
+
 "CoffeeMaker":
 	{
 		"1":{
@@ -163,19 +178,23 @@
 	{
 		"Cream":{
 			"Name":"Cream",
-			"Description":"Ounce serving"
+			"Description":"Ounce serving",
+			"CommandStep":"Add"
 			},
 		"Sugar":{
 			"Name":"Sugar",
-			"Description":"Teaspoon"
+			"Description":"Teaspoon",
+			"CommandStep":"Add"
 			},
 		"NutraSweet":{
 			"Name":"NutraSweet",
-			"Description":"Teaspoon"
+			"Description":"Teaspoon",
+			"CommandStep":"Add"
 			},
 		"Hazelnut":{
 			"Name":"Hazelnut",
-			"Description":"Teaspoon (squirt)"
+			"Description":"Teaspoon (squirt)",
+			"CommandStep":"Add"
 			}
 	},
 "CoffeeMakerCapability":
