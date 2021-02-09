@@ -3,19 +3,26 @@ package BusinessLayer.RecipeCreation;
 import BusinessLayer.InterLayerCommunication.Option;
 import BusinessLayer.RecipeCreation.ConcreteDecorators.*;
 import BusinessLayer.RecipeCreation.ConcreteRecipes.ConcreteRecipe;
+import DataLayer.DatabaseConnection;
 
 import java.util.ArrayList;
 
 public class ConcreteRecipeCreator implements RecipeCreator {
+	
+	public DatabaseConnection databaseConnection;
+	
+	public ConcreteRecipeCreator()
+	{
+		this.databaseConnection = new DatabaseConnection();
+	}
 
 	@Override
 	public Recipe createRecipe(String drinkType, ArrayList<Option> ingredients) {
 		// TODO Auto-generated method stub
 		
-		ArrayList<RecipeStep> recipeSteps = null; //retrieve from server the steps
+		ArrayList<RecipeStep> recipeSteps = this.databaseConnection.getRecipeSteps(drinkType); //retrieve from server the steps
 		
 		Recipe recipe = new ConcreteRecipe(drinkType,recipeSteps);//Add server calls to get the recipe steps here
-		
 		
 		
 		return decorate(recipe, ingredients);
@@ -51,7 +58,7 @@ public class ConcreteRecipeCreator implements RecipeCreator {
 			String optionName = option.getName();
 			int optionQuantity = option.getQuantity();
 			
-			RecipeStep recipeStep = null; //get server info on step
+			RecipeStep recipeStep = new RecipeStep(databaseConnection.getCommandStep(optionName),optionName); //get server info on step
 			
 			for (int i = 0; i <optionQuantity; i++)
 			{
