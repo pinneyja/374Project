@@ -6,8 +6,8 @@ import BusinessLayer.RecipeCreation.ConcreteRecipeCreator;
 import BusinessLayer.RecipeCreation.Recipe;
 import BusinessLayer.RecipeCreation.RecipeCreator;
 import BusinessLayer.RecipeCreation.RecipeStep;
-import Commander.BuildRecipeCommand;
-import Commander.Commander;
+import BusinessLayer.Commander.BuildRecipeCommand;
+import BusinessLayer.Commander.Commander;
 import DataLayer.CoffeeMachine;
 import ServiceLayer.Order;
 

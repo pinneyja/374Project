@@ -132,18 +132,6 @@ public class DatabaseConnection {
 
         return drinkTypes;
     }
-    //TODO: Delete method if other 2 methods work: Returns JSON recipe
-    public JSONObject getRecipe(String drinkName) {
-    	JSONObject storedDrinkTable = jsonDatabase.getJSONObject(KEY_DRINK_TYPE);
-    	JSONObject drink;
-    	try {
-            drink = storedDrinkTable.getJSONObject(drinkName);
-        } catch (Exception e) {
-            return new JSONObject();
-        }
-    	JSONObject recipe=drink.getJSONObject(KEY_DRINK_RECIPE);
-    	return recipe;
-    }
     
     //Searches drink types and returns the recipe of that drink if it exists in an ArrayList
     public ArrayList<RecipeStep> getRecipeSteps(String drinkName) {

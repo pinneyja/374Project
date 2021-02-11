@@ -13,6 +13,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+/*
+ * Communicates with OrderManager. Receives Command Object from OrderManager.
+ * Sends ControllerResponse Object to the Order Manager.
+ */
 public class ControllerInterface implements DataSubject {
 
     // File Names
@@ -45,10 +50,18 @@ public class ControllerInterface implements DataSubject {
     HashSet<DataObserver> dataObservers;
     int numCommands = 3; // This changes so we know when to start processing controller response file.
 
+    /*
+     * Creates a new ControllerInterface object.
+     */
     public ControllerInterface() {
         dataObservers = new HashSet<>();
     }
     
+    /*
+     * Returns an ArrayList of ControllerResponse Objects. 
+	 * Does this by using the Utilities Class to read from a file and turn the file into a String. 
+	 * Once it does this, it parses the JSON to turn it into a Controller Response
+     */
     private ArrayList<ControllerResponse> readResponsesFromFile() {
         ArrayList<ControllerResponse> responses = new ArrayList<>();
 
@@ -69,6 +82,11 @@ public class ControllerInterface implements DataSubject {
         return responses;
     }
 
+    /*
+     * Returns a Controller Response Object. Does this by parsing the String that was passed in.
+     * 
+     * @param String 
+     */
     private ControllerResponse parseControllerResponse(String jsonCRAsString) {
 
         JSONObject jsonDrinkResponse = new JSONObject(jsonCRAsString).getJSONObject(CR_DRINK_KEY);
@@ -88,6 +106,12 @@ public class ControllerInterface implements DataSubject {
         return new ControllerResponse(orderID, status, errorCode, errorDesc);
     }
 
+    /*
+     * Method is void. Takes in a Command Object and parses it into JSON. 
+     * Then writes the JSON to a file using the Utilities Class.
+     * 
+     * @param Command
+     */
     public void sendCommand(Command command) {
         JSONObject jsonCommand = new JSONObject().put(C_COMMAND_KEY, new JSONObject());
         JSONObject jsonCommandBody = jsonCommand.getJSONObject(C_COMMAND_KEY);
@@ -141,6 +165,12 @@ public class ControllerInterface implements DataSubject {
         }
     }
 
+    /*
+     * Method is void. Calls the readResponsesFromFile method and then 
+     * iterates through the ArrayList that was created, 
+     * notifying the observers of each response.
+     * 
+     */
     private void sendBackResponses() {
         for (ControllerResponse response : readResponsesFromFile()) {
             notifyObservers(response);
@@ -148,16 +178,31 @@ public class ControllerInterface implements DataSubject {
     }
     
 
+    /*
+     * Part of Observer Pattern. Adds DataObserver to dataObservers instance variable.
+     * 
+     * @param DataObserver
+     */
     @Override
     public void registerObserver(DataObserver dataObserver) {
         dataObservers.add(dataObserver);
     }
 
+    /*
+     * Part of Observer Pattern. Removes DataObserver from DataObservers instance variable.
+     * 
+     * @param DataObserver
+     */
     @Override
     public void removeObserver(DataObserver dataObserver) {
         dataObservers.remove(dataObserver);
     }
 
+    /*
+     * Part of Observer Pattern. Notifies each of the dataObservers of the update by sending a Controller Response.
+     * 
+     * @param ControllerResponse
+     */
     @Override
     public void notifyObservers(ControllerResponse response) {
         for (DataObserver dataObserver : dataObservers) {
