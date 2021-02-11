@@ -1,16 +1,13 @@
-package BusinessLayer.RecipeCreation.ConcreteDecorators;
+package BusinessLayer.RecipeCreation;
 
 import java.util.ArrayList;
 
-import BusinessLayer.RecipeCreation.IngredientDecorator;
-import BusinessLayer.RecipeCreation.Recipe;
-import BusinessLayer.RecipeCreation.RecipeStep;
-
+//Decorates Concrete Recipes
 public class ConcreteDecorator implements IngredientDecorator {
 
+	//Has a recipe it wraps and a recipe step
 	Recipe recipe;
-	RecipeStep recipeStep; // = new RecipeStep("add", "decaffcoffee"); //add recstep
-	//recstep will be determined via what is in the database and using the string passed in
+	RecipeStep recipeStep; 
 	
 	public ConcreteDecorator(Recipe recipe, RecipeStep recipeStep)
 	{
@@ -19,7 +16,7 @@ public class ConcreteDecorator implements IngredientDecorator {
 	}
 	
 	
-	@Override
+	@Override //Build recipe gets the recipe steps within the recipe it wraps, adds the recipe step of the decorator and returns the new array list of steps
 	public ArrayList<RecipeStep> buildRecipe() {
 		ArrayList<RecipeStep> recipeSteps = this.recipe.buildRecipe();
 		recipeSteps.add(recipeStep);

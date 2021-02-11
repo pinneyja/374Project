@@ -37,11 +37,16 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
                 RecipeCreator recipeCreator = new ConcreteRecipeCreator();
                 Recipe recipe = recipeCreator.createRecipe(drinkType, ingredients);
                 
+                //Command for building a recipe passed the recipe 
                 BuildRecipeCommand buildRecipeCommand = new BuildRecipeCommand(recipe);
                 
+                //execute the command
                 buildRecipeCommand.execute();
-                recipeSteps = (recipe == null) ? null : buildRecipeCommand.getExecute();//Singleton idea for buildrecipe ***
-//                recipeSteps = (recipe == null) ? null : recipe.buildRecipe();
+                recipeSteps = (recipe == null) ? null : buildRecipeCommand.getExecute(); //get the execution result of the command
+                
+                
+                //Singleton idea for buildrecipe ***
+
             }
             options.removeAll(ingredients);
         }
