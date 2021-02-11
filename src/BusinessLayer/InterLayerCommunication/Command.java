@@ -4,6 +4,9 @@ import BusinessLayer.RecipeCreation.RecipeStep;
 
 import java.util.ArrayList;
 
+/**
+ * This command represents what is to be sent to the controller based on a given order.
+ */
 public class Command {
     private int controllerID, coffeeMachineID, orderID;
     private String drinkName, requestType;

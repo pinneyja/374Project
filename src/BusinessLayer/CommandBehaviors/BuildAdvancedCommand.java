@@ -8,6 +8,14 @@ import ServiceLayer.Order;
 import java.util.ArrayList;
 
 public class BuildAdvancedCommand implements BuildCommandBehavior {
+
+    /**
+     * Builds an advanced/automated or simple command for a given Order.
+     *
+     * @param order
+     * @param coffeeMachine
+     * @return
+     */
     @Override
     public Command buildCommand(Order order, CoffeeMachine coffeeMachine) {
         int coffeeMachineID = coffeeMachine.getMachineId();

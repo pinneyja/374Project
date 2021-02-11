@@ -1,5 +1,8 @@
 package BusinessLayer.InterLayerCommunication;
 
+/**
+ * Data type to represent an option on a given order.
+ */
 public class Option {
     private String name;
     private int quantity;

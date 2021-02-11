@@ -4,6 +4,9 @@ import BusinessLayer.InterLayerCommunication.Option;
 
 import java.util.ArrayList;
 
+/**
+ * A data class that represents incoming orders. This is to be used instead of raw JSON.
+ */
 public class Order {
     private int orderID, zipCode;
     private String streetAddress, drinkName;

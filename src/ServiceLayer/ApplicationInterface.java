@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Provides an interface for the application as a whole. This class receives orders and outputs app responses. This
+ * class is a Subject in the Service Layer based on the Observer Design Pattern.
+ */
 public class ApplicationInterface implements ServiceSubject {
     // Order Keys
     private static final String O_ORDER_KEY = "order";
@@ -41,6 +45,9 @@ public class ApplicationInterface implements ServiceSubject {
     HashSet<ServiceObserver> observers;
     HashMap<Integer, Order> orders;
 
+    /**
+     * Creates a new ApplicationInterface object.
+     */
     public ApplicationInterface() {
         observers = new HashSet<>();
         orders = new HashMap<>();
@@ -48,16 +55,29 @@ public class ApplicationInterface implements ServiceSubject {
         new OrderManager(this);
     }
 
+    /**
+     * This method takes in a filename. The filename should correspond to a file that resides in the resources package.
+     * It reads orders in JSON format from the file.
+     *
+     * @param filename
+     */
     public void readOrdersFromFile(String filename) {
         String fileData = Utilities.readStringFromLocalFile(filename);
         JSONArray jsonOrders = new JSONArray(fileData);
+
         for (int i = 0; i < jsonOrders.length(); i++) {
             JSONObject jsonOrder = jsonOrders.getJSONObject(i);
             placeOrder(jsonOrder.toString());
         }
     }
 
-    public void placeOrder(String jsonOrder) {
+    /**
+     * This method takes in a String of a JSONObject that represents a single order. It parses the order and notifies
+     * all registered observers.
+     *
+     * @param jsonOrder
+     */
+    private void placeOrder(String jsonOrder) {
         try {
             Order newOrder = parseOrder(jsonOrder);
             orders.put(newOrder.getOrderID(), newOrder);
@@ -69,6 +89,14 @@ public class ApplicationInterface implements ServiceSubject {
         }
     }
 
+    /**
+     * This method takes in a String that is of JSON format and parses it into the Order object. If the String is not
+     * in the expected format, an error is bubbled up.
+     *
+     * @param jsonOrderAsString
+     * @return
+     * @throws JSONException
+     */
     private Order parseOrder(String jsonOrderAsString) throws JSONException {
         JSONObject jsonOrder = new JSONObject(jsonOrderAsString).getJSONObject(O_ORDER_KEY);
 
@@ -99,6 +127,12 @@ public class ApplicationInterface implements ServiceSubject {
         return new Order(orderID, streetAddress, zipCode, drinkName, orderOptions);
     }
 
+    /**
+     * This app takes in an AppResponse object, converts it to JSON, and writes it to a file in the resources/out
+     * folder.
+     *
+     * @param appResponse
+     */
     public void returnAppResponse(AppResponse appResponse) {
         JSONObject jsonAppResponse = new JSONObject().put(AR_USER_RESPONSE_KEY, new JSONObject());
         JSONObject jsonUserResponse = jsonAppResponse.getJSONObject(AR_USER_RESPONSE_KEY);
@@ -119,11 +153,21 @@ public class ApplicationInterface implements ServiceSubject {
         Utilities.writeStringToLocalFile(APP_RESPONSE_FILE, currentAppResponse);
     }
 
+    /**
+     * This method registers an observer based on the Observer Design Pattern.
+     *
+     * @param serviceObserver
+     */
     @Override
     public void registerObserver(ServiceObserver serviceObserver) {
         observers.add(serviceObserver);
     }
 
+    /**
+     * This method removes an observer based on the Observer Design Pattern.
+     *
+     * @param serviceObserver
+     */
     @Override
     public void removeObserver(ServiceObserver serviceObserver) {
         if (observers.contains(serviceObserver)) {
@@ -131,6 +175,11 @@ public class ApplicationInterface implements ServiceSubject {
         }
     }
 
+    /**
+     * This method notifies all observers of a new Order based on the Observer Design Pattern.
+     *
+     * @param order
+     */
     @Override
     public void notifyObservers(Order order) {
         for (ServiceObserver serviceObserver : observers) {

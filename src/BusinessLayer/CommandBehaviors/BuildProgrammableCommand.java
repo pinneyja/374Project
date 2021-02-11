@@ -14,6 +14,14 @@ import ServiceLayer.Order;
 import java.util.ArrayList;
 
 public class BuildProgrammableCommand implements BuildCommandBehavior {
+
+    /**
+     * Builds a Programmable command (or Automated, Simple) for a given order.
+     *
+     * @param order
+     * @param coffeeMachine
+     * @return
+     */
     @Override
     public Command buildCommand(Order order, CoffeeMachine coffeeMachine) {
         ArrayList<Option> ingredients = new ArrayList<>();
@@ -27,25 +35,25 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
 
         ArrayList<RecipeStep> recipeSteps = null;
         if(options != null && options.size() > 0) {
+            // Determine which options are ingredients
             for (Option option : order.getOptions()) {
                 if (option.isIngredient()) {
                     ingredients.add(option);
                 }
             }
 
+            // If there are ingredients, this is a programmable order.
             if (ingredients.size() > 0) {
                 RecipeCreator recipeCreator = new ConcreteRecipeCreator();
                 Recipe recipe = recipeCreator.createRecipe(drinkType, ingredients);
                 
-                BuildRecipeCommand buildRecipeCommand = new BuildRecipeCommand(recipe);
+                Commander buildRecipeCommand = new BuildRecipeCommand(recipe);
                 
                 buildRecipeCommand.execute();
-                recipeSteps = (recipe == null) ? null : buildRecipeCommand.getExecute();//Singleton idea for buildrecipe ***
-//                recipeSteps = (recipe == null) ? null : recipe.buildRecipe();
+                recipeSteps = (recipe == null) ? null : buildRecipeCommand.getExecute();
             }
             options.removeAll(ingredients);
         }
-
 
         return new Command(controllerID, coffeeMachineID, orderID, drinkName, BuildCommandBehavior.REQUEST_TYPE_PROGRAMMABLE, options, recipeSteps);
     }
