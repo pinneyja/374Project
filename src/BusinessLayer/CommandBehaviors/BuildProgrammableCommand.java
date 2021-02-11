@@ -40,7 +40,7 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
                 BuildRecipeCommand buildRecipeCommand = new BuildRecipeCommand(recipe);
                 
                 buildRecipeCommand.execute();
-                recipeSteps = (recipe == null) ? null : buildRecipeCommand.recipeSteps;//Singleton idea for buildrecipe ***
+                recipeSteps = (recipe == null) ? null : buildRecipeCommand.getExecute();//Singleton idea for buildrecipe ***
 //                recipeSteps = (recipe == null) ? null : recipe.buildRecipe();
             }
             options.removeAll(ingredients);

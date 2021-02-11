@@ -22,6 +22,11 @@ public class BuildRecipeCommand implements Commander {
 		this.recipeSteps = recipe.buildRecipe();
 
 	}
+	
+	public ArrayList<RecipeStep> getExecute()
+	{
+		return this.recipeSteps;
+	}
 
 	
 	
