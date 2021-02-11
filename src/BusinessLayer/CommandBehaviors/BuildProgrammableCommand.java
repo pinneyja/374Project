@@ -30,13 +30,13 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
         int coffeeMachineID = coffeeMachine.getMachineId();
         int controllerID = coffeeMachine.getControllerID();
         int orderID = order.getOrderID();
-        String drinkName = order.getDrinkName();
+        String drinkName = drinkType;
         ArrayList<Option> options = order.getOptions();
 
         ArrayList<RecipeStep> recipeSteps = null;
         if(options != null && options.size() > 0) {
             // Determine which options are ingredients
-            for (Option option : order.getOptions()) {
+            for (Option option : options) {
                 if (option.isIngredient()) {
                     ingredients.add(option);
                 }
