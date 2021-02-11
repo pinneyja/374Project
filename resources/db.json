@@ -40,9 +40,18 @@
 			"DrinkName": "Latte",
 			"Description":"Coffee drink with milk and whipped cream",
 			"RecipeNeeded": {
-				"1":"Milk",
-				"2":"Expresso",
-				"3":"Whipped Cream"
+				"1":{
+					"CommandStep":"Steam",
+					"Object":"Milk"
+					},
+				"2":{
+					"CommandStep":"Add",
+					"Object":"Expresso"
+					},
+				"3":{
+					"CommandStep":"Top with",
+					"Object":"Whipped Cream"
+					}
 				}
 			},
 		"Decaff":{
@@ -64,14 +73,30 @@
 			"DrinkName":"Pumkin Spice",
 			"Description":"Seasonal drink w/Pumkin",
 			"RecipeNeeded": {
-				"1":"Coffee",
-				"2":"Pumkin Spice",
-				"3":"Cream",
-				"4":"Mix",
-				"5":"Nutmeg"
+				"1":{
+					"CommandStep":"Add",
+					"Object":"Coffee"
+					},
+				"2":{
+					"CommandStep":"Add",
+					"Object":"Pumkin Spice"
+					},
+				"3":{
+					"CommandStep":"Add",
+					"Object":"Cream"
+					},
+				"4":{
+					"CommandStep":"Mix",
+					"Object":"Drink"
+					},
+				"5":{
+					"CommandStep":"Top with",
+					"Object":"Nutmeg"
+					}
 				}
 			}
-		},
+	},
+
 "Ingredient":
 	{
 		"Coffee":{

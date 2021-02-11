@@ -34,6 +34,7 @@ public class DatabaseConnection {
     private static final String KEY_INGREDIENT_TABLE = "Ingredient";
     private static final String KEY_COMMAND_STEP = "CommandStep";
     private static final String KEY_CONDIMENT_TABLE = "Condiment";
+    private static final String KEY_RECIPE_OBJECT = "Object";
 
     
 
@@ -41,9 +42,10 @@ public class DatabaseConnection {
     private JSONObject jsonDatabase;
 
     public DatabaseConnection() {
-        jsonDatabase = new JSONObject(Utilities.readStringFromLocalFile(DB_FILE_NAME));
+        jsonDatabase = new JSONObject(Utilities.readStringFromLocalFile(DB_FILE_NAME)); //initializes database
     }
 
+    //Searches database for coffee machines at a specified location
     public ArrayList<CoffeeMachine> getCoffeeMachinesAtAddress(String address, int zipCode) {
         ArrayList<CoffeeMachine> coffeeMachinesAtAddress = new ArrayList<>();
 
@@ -90,6 +92,7 @@ public class DatabaseConnection {
         return coffeeMachinesAtAddress;
     }
 
+    //Searches coffee machines and returns an ArrayList of what a specified coffee machine can make
     public ArrayList<String> getDrinksForCoffeeMachine(int coffeeMachineID) {
         JSONObject drinkTable = jsonDatabase.getJSONObject(KEY_COFFEE_MAKER_DRINK_TABLE);
         JSONObject jsonCoffeeMakerDrinks;
@@ -110,6 +113,7 @@ public class DatabaseConnection {
         return drinkTypes;
     }
     
+    //Searches the drink ingredients table and returns an ArrayList of ingredient names of the specified drink
     public ArrayList<String> getIngredients(String drinkName){
     	JSONObject drinkIngredientTable = jsonDatabase.getJSONObject(KEY_DRINK_INGREDIENT_TABLE);
     	JSONObject drink;
@@ -117,7 +121,6 @@ public class DatabaseConnection {
         try {
             drink = drinkIngredientTable.getJSONObject(drinkName);
         } catch (Exception e) {
-//        	System.out.println("Requested drink does not exist in system!");
             return new ArrayList<>();
         }
         JSONArray drinkIngredientArray = drink.getJSONArray(KEY_DRINK_INGREDIENT_INGREDIENT);
@@ -129,7 +132,7 @@ public class DatabaseConnection {
 
         return drinkTypes;
     }
-    
+    //TODO: Delete method if other 2 methods work: Returns JSON recipe
     public JSONObject getRecipe(String drinkName) {
     	JSONObject storedDrinkTable = jsonDatabase.getJSONObject(KEY_DRINK_TYPE);
     	JSONObject drink;
@@ -142,6 +145,7 @@ public class DatabaseConnection {
     	return recipe;
     }
     
+    //Searches drink types and returns the recipe of that drink if it exists in an ArrayList
     public ArrayList<RecipeStep> getRecipeSteps(String drinkName) {
     	JSONObject storedDrinkTable = jsonDatabase.getJSONObject(KEY_DRINK_TYPE);
     	ArrayList<RecipeStep> steps=new ArrayList<RecipeStep>();
@@ -153,17 +157,14 @@ public class DatabaseConnection {
         }
     	JSONObject recipe=drink.getJSONObject(KEY_DRINK_RECIPE);
     	
-    	for (int i = 0; i < recipe.length(); i++) {
-    		String obj=recipe.getString(Integer.toString(i));
-    		if(obj.equals("Mix")) {
-        		steps.add(new RecipeStep("Mix", "Spoon"));
-    		}else {    			
-    			steps.add(new RecipeStep(getCommandStep(obj), obj));
-    		}
+    	for (int i = 1; i < recipe.length()+1; i++) {
+    		JSONObject obj=recipe.getJSONObject(Integer.toString(i));  			
+    		steps.add(new RecipeStep(obj.getString(KEY_COMMAND_STEP), obj.getString(KEY_RECIPE_OBJECT)));
     	}
     	return steps;
     }
     
+    //Searches condiments and ingredients and returns the command step of the ingredient 
     public String getCommandStep(String ingredientName) {
     	JSONObject ingredientTable = jsonDatabase.getJSONObject(KEY_INGREDIENT_TABLE);
     	JSONObject condTable = jsonDatabase.getJSONObject(KEY_CONDIMENT_TABLE);
