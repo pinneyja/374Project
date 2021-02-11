@@ -46,11 +46,12 @@ public class BuildProgrammableCommand implements BuildCommandBehavior {
             if (ingredients.size() > 0) {
                 RecipeCreator recipeCreator = new ConcreteRecipeCreator();
                 Recipe recipe = recipeCreator.createRecipe(drinkType, ingredients);
-                
+
                 Commander buildRecipeCommand = new BuildRecipeCommand(recipe);
-                
+                //execute the command
                 buildRecipeCommand.execute();
-                recipeSteps = (recipe == null) ? null : buildRecipeCommand.getExecute();
+
+                recipeSteps = (recipe == null) ? null : buildRecipeCommand.getExecute(); //get the execution result of the command
             }
             options.removeAll(ingredients);
         }

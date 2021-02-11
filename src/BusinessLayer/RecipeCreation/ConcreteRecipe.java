@@ -1,12 +1,11 @@
-package BusinessLayer.RecipeCreation.ConcreteRecipes;
+package BusinessLayer.RecipeCreation;
 
 import java.util.ArrayList;
 
-import BusinessLayer.RecipeCreation.Recipe;
-import BusinessLayer.RecipeCreation.RecipeStep;
-
+//Concrete Recipe class that is constructed via a drink's name and recipe steps gathered from the database
 public class ConcreteRecipe implements Recipe{
 
+	
 	String drinkType;
 	ArrayList<RecipeStep> recipeSteps = new ArrayList<RecipeStep>();
 
@@ -18,6 +17,7 @@ public class ConcreteRecipe implements Recipe{
 	
 	
 	@Override
+	//For the concrete Recipe it returns the recipe's recipe steps 
 	public ArrayList<RecipeStep> buildRecipe() {
 		// TODO Auto-generated method stub
 		return this.recipeSteps;
