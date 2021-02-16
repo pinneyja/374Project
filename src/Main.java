@@ -9,61 +9,15 @@ import ServiceLayer.ApplicationInterface;
 import static java.lang.System.exit;
 
 public class Main {
-    private static final String[] ORDERS = {
-            "{\n" +
-                    "  \"order\": { \"orderID\": 1,\n" +
-                    "            \"address\": {\n" +
-                    "                  \"street\": \"200 N Main\",\n" +
-                    "                  \"ZIP\": 47803\n" +
-                    "            },\n" +
-                    "            \"drink\": \"Americano\",\n" +
-                    "            \"condiments\": [\n" +
-                    "                {\"name\": \"Sugar\", \"qty\": 1},\n" +
-                    "                {\"name\": \"Cream\", \"qty\": 2}\n" +
-                    "            ]\n" +
-                    "            }\n" +
-                    "}",
-
-            "{\n" +
-                    "  \"order\": { \"orderID\": 2,\n" +
-                    "            \"address\": {\n" +
-                    "                  \"street\": \"200 N Main\",\n" +
-                    "                  \"ZIP\": 47803\n" +
-                    "            },\n" +
-                    "            \"drink\": \"Expresso\"\n" +
-                    "            }\n" +
-                    "}",
-
-            "{\n" +
-                    "  \"order\": { \"orderID\": 3,\n" +
-                    "            \"address\": {\n" +
-                    "                  \"street\": \"200 N Main\",\n" +
-                    "                  \"ZIP\": 47803\n" +
-                    "            },\n" +
-                    "            \"drink\": \"Pumpkin Spice\",\n" +
-                    "            \"condiments\": [\n" +
-                    "                {\"name\": \"Cream\", \"qty\": 1}\n" +
-                    "            ]\n" +
-                    "            }\n" +
-                    "}"
-    };
-
     public static void main(String[] args) {
         System.out.println("Starting interface");
-        
-//        testControllerInterface();
-//
+
         Utilities.writeStringToLocalFile("App-response.json", ""); // this clears out the App-response.json file for a new run
         Utilities.writeStringToLocalFile("Command_stream.json", "");
         ApplicationInterface applicationInterface = new ApplicationInterface();
-        applicationInterface.readOrdersFromFile("order-input.json"); // TODO: uncomment this line to run with file input
+        applicationInterface.readOrdersFromFile("order-input.json");
 
-//        DatabaseConnection dbc=new DatabaseConnection();
-//        ArrayList<CoffeeMachine> coffeee= dbc.getCoffeeMachinesAtAddress("200 N. Main", 47803);
-//        System.out.println(coffeee.size());
         testControllerInterface();
-
-//        exit(0);
     }
     
     /*
