@@ -86,8 +86,7 @@
 					"Object":"Cream"
 					},
 				"4":{
-					"CommandStep":"Mix",
-					"Object":"Drink"
+					"CommandStep":"Mix"
 					},
 				"5":{
 					"CommandStep":"Top with",

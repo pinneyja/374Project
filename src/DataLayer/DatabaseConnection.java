@@ -138,16 +138,29 @@ public class DatabaseConnection {
     	JSONObject storedDrinkTable = jsonDatabase.getJSONObject(KEY_DRINK_TYPE);
     	ArrayList<RecipeStep> steps=new ArrayList<RecipeStep>();
     	JSONObject drink;
+    	String commandStep;
+    	String object;
     	try {
             drink = storedDrinkTable.getJSONObject(drinkName);
         } catch (Exception e) {
             return steps;
         }
+
     	JSONObject recipe=drink.getJSONObject(KEY_DRINK_RECIPE);
     	
     	for (int i = 1; i < recipe.length()+1; i++) {
     		JSONObject obj=recipe.getJSONObject(Integer.toString(i));  			
-    		steps.add(new RecipeStep(obj.getString(KEY_COMMAND_STEP), obj.getString(KEY_RECIPE_OBJECT)));
+        	try { //checks for instance of commandstep
+        		commandStep=obj.getString(KEY_COMMAND_STEP);
+        	} catch (Exception e) {
+        		commandStep="";
+        	}
+        	try {//checks for instance of object
+        		object=obj.getString(KEY_RECIPE_OBJECT);
+        	} catch (Exception e) {
+        		object="";
+        	}
+    		steps.add(new RecipeStep(commandStep, object));
     	}
     	return steps;
     }
