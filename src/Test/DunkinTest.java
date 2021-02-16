@@ -13,41 +13,6 @@ import ServiceLayer.ApplicationInterface;
 import ServiceLayer.Order;
 
 class DunkinTest {
-
-//	@Test
-//	void test() {
-//		fail("Not yet implemented");
-//	}
-//	
-	
-//	@Test
-//	public void testCommandController()
-//	{
-//		ControllerInterface con = new ControllerInterface();
-//        BusinessLayer.InterLayerCommunication.Option op = new BusinessLayer.InterLayerCommunication.Option("sugar", 7);
-//        ArrayList<BusinessLayer.InterLayerCommunication.Option> ops = new ArrayList<BusinessLayer.InterLayerCommunication.Option>();
-//        ops.add(op);
-//        Command com = new Command(6, 7, 8, "Frappe", "Automated", ops);
-//        String strCom = con.sendCommand(com);  
-//        
-//		assertEquals("{\"command\": {\n"+
-//    "\"Options\": [\n"+
-//        "{\n"+
-//            "\"qty\": 1,\n"+
-//            "\"Name\": \"Sugar\"\n"+
-//        "},\n"+
-//        "{\n" +
-//            "\"qty\": 2,\n" + 
-//            "\"Name\": \"Cream\"\n"+
-//        "}\n" +
-//    "],\n" + 
-//    "\"controller_id\": 2,\n" + 
-//    "\"orderID\": 1,\n"+
-//    "\"coffee_machine_id\": 1,\n"+
-//    "\"DrinkName\": \"Americano\",\n"+
-//    "\"Requesttype\": \"Automated\"\n"+
-//"}}", strCom);
-//	}
 	
 	@Test
 	public void u1Test()
@@ -62,12 +27,6 @@ class DunkinTest {
         OrderManager om = new OrderManager(applicationInterface);
         
         assertEquals(2, om.buildCommand(o1).getCoffeeMachineID());
-        
-//        
-//        "2":{
-//			"MachineID":2,
-//			"Controller":1,
-        
 	}
 	
 	@Test
