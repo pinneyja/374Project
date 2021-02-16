@@ -17,7 +17,7 @@ public class Main {
         ApplicationInterface applicationInterface = new ApplicationInterface();
         applicationInterface.readOrdersFromFile("order-input.json");
 
-        testControllerInterface();
+//        testControllerInterface();
     }
     
     /*

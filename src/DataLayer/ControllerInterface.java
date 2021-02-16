@@ -48,7 +48,7 @@ public class ControllerInterface implements DataSubject {
     private static final String C_RECIPE_OBJECT_KEY = 	"object";
 
     HashSet<DataObserver> dataObservers;
-    int numCommands = 3; // This changes so we know when to start processing controller response file.
+    int numCommands = 4; // This changes so we know when to start processing controller response file.
 
     /*
      * Creates a new ControllerInterface object.

@@ -20,5 +20,11 @@
     "errordesc": "Machine jammed.",
     "errorcode": 26
   }
+},
+  {
+  "drinkresponse": {
+    "orderID": 4,
+    "status": 0
+  }
 }
 ]
